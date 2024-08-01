@@ -21,7 +21,7 @@ return {
     {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
-        requires = { { "nvim-lua/plenary.nvim" } }
+        dependencies = { "nvim-lua/plenary.nvim" }
     },
     { "mbbill/undotree" },
     { "tpope/vim-fugitive" },
