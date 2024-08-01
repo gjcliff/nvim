@@ -75,7 +75,7 @@ time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   ["Comment.nvim"] = {
-    config = { "\27LJ\2\n®\1\0\0\4\0\b\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\1K\0\1\0\ropleader\1\0\2\tline\14<leader>c\nblock\14<leader>b\ftoggler\1\0\2\ftoggler\0\ropleader\0\1\0\2\tline\acc\nblock\15<leader>bb\nsetup\fComment\frequire\0" },
+    config = { "\27LJ\2\n®\1\0\0\4\0\b\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\1K\0\1\0\ropleader\1\0\2\tline\14<leader>c\nblock\14<leader>b\ftoggler\1\0\2\ropleader\0\ftoggler\0\1\0\2\tline\acc\nblock\15<leader>bb\nsetup\fComment\frequire\0" },
     loaded = true,
     path = "/home/graham/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
@@ -115,6 +115,12 @@ _G.packer_plugins = {
     path = "/home/graham/.local/share/nvim/site/pack/packer/start/copilot.vim",
     url = "https://github.com/github/copilot.vim"
   },
+  ["duckytype.nvim"] = {
+    config = { "\27LJ\2\n;\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\14duckytype\frequire\0" },
+    loaded = true,
+    path = "/home/graham/.local/share/nvim/site/pack/packer/start/duckytype.nvim",
+    url = "https://github.com/kwakzalver/duckytype.nvim"
+  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/home/graham/.local/share/nvim/site/pack/packer/start/friendly-snippets",
@@ -125,16 +131,15 @@ _G.packer_plugins = {
     path = "/home/graham/.local/share/nvim/site/pack/packer/start/harpoon",
     url = "https://github.com/ThePrimeagen/harpoon"
   },
-  ["image.nvim"] = {
-    config = { "\27LJ\2\nó\2\0\0\4\0\n\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0006\3\4\0009\3\5\3=\3\6\0026\3\4\0009\3\5\3=\3\a\0025\3\b\0=\3\t\2B\0\2\1K\0\1\0#window_overlap_clear_ft_ignore\1\4\0\0\rcmp_menu\rcmp_docs\5 max_width_window_percentage!max_height_window_percentage\thuge\tmath\1\0\a!max_height_window_percentage\0 max_width_window_percentage\0#window_overlap_clear_ft_ignore\0\fbackend\nkitty!window_overlap_clear_enabled\2\15max_height\3\f\14max_width\3d\nsetup\nimage\frequire\0" },
-    loaded = true,
-    path = "/home/graham/.local/share/nvim/site/pack/packer/start/image.nvim",
-    url = "https://github.com/3rd/image.nvim"
-  },
   ["lsp-zero.nvim"] = {
     loaded = true,
     path = "/home/graham/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
     url = "https://github.com/VonHeikemen/lsp-zero.nvim"
+  },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/home/graham/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
   },
   ["markdown-preview.nvim"] = {
     loaded = false,
@@ -152,12 +157,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/graham/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
-  },
-  ["molten-nvim"] = {
-    config = { "\27LJ\2\no\0\0\2\0\5\0\t6\0\0\0009\0\1\0'\1\3\0=\1\2\0006\0\0\0009\0\1\0)\1\20\0=\1\4\0K\0\1\0!molten_output_win_max_height\15image.nvim\26molten_image_provider\6g\bvim\0" },
-    loaded = true,
-    path = "/home/graham/.local/share/nvim/site/pack/packer/start/molten-nvim",
-    url = "https://github.com/benlubas/molten-nvim"
   },
   ["nvim-autopairs"] = {
     config = { "\27LJ\2\n@\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\19nvim-autopairs\frequire\0" },
@@ -184,6 +183,12 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/graham/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
+  },
+  ["nvim-web-devicons"] = {
+    loaded = false,
+    needs_bufread = false,
+    path = "/home/graham/.local/share/nvim/site/pack/packer/opt/nvim-web-devicons",
+    url = "https://github.com/nvim-tree/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = true,
@@ -228,26 +233,22 @@ time([[Defining packer_plugins]], false)
 time([[Setup for markdown-preview.nvim]], true)
 try_loadstring("\27LJ\2\n=\0\0\2\0\4\0\0056\0\0\0009\0\1\0005\1\3\0=\1\2\0K\0\1\0\1\2\0\0\rmarkdown\19mkdp_filetypes\6g\bvim\0", "setup", "markdown-preview.nvim")
 time([[Setup for markdown-preview.nvim]], false)
--- Config for: rose-pine
-time([[Config for rose-pine]], true)
-try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\26colorscheme rose-pine\bcmd\bvim\0", "config", "rose-pine")
-time([[Config for rose-pine]], false)
--- Config for: image.nvim
-time([[Config for image.nvim]], true)
-try_loadstring("\27LJ\2\nó\2\0\0\4\0\n\0\0156\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0006\3\4\0009\3\5\3=\3\6\0026\3\4\0009\3\5\3=\3\a\0025\3\b\0=\3\t\2B\0\2\1K\0\1\0#window_overlap_clear_ft_ignore\1\4\0\0\rcmp_menu\rcmp_docs\5 max_width_window_percentage!max_height_window_percentage\thuge\tmath\1\0\a!max_height_window_percentage\0 max_width_window_percentage\0#window_overlap_clear_ft_ignore\0\fbackend\nkitty!window_overlap_clear_enabled\2\15max_height\3\f\14max_width\3d\nsetup\nimage\frequire\0", "config", "image.nvim")
-time([[Config for image.nvim]], false)
--- Config for: Comment.nvim
-time([[Config for Comment.nvim]], true)
-try_loadstring("\27LJ\2\n®\1\0\0\4\0\b\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\1K\0\1\0\ropleader\1\0\2\tline\14<leader>c\nblock\14<leader>b\ftoggler\1\0\2\ftoggler\0\ropleader\0\1\0\2\tline\acc\nblock\15<leader>bb\nsetup\fComment\frequire\0", "config", "Comment.nvim")
-time([[Config for Comment.nvim]], false)
--- Config for: molten-nvim
-time([[Config for molten-nvim]], true)
-try_loadstring("\27LJ\2\no\0\0\2\0\5\0\t6\0\0\0009\0\1\0'\1\3\0=\1\2\0006\0\0\0009\0\1\0)\1\20\0=\1\4\0K\0\1\0!molten_output_win_max_height\15image.nvim\26molten_image_provider\6g\bvim\0", "config", "molten-nvim")
-time([[Config for molten-nvim]], false)
 -- Config for: nvim-autopairs
 time([[Config for nvim-autopairs]], true)
 try_loadstring("\27LJ\2\n@\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\19nvim-autopairs\frequire\0", "config", "nvim-autopairs")
 time([[Config for nvim-autopairs]], false)
+-- Config for: duckytype.nvim
+time([[Config for duckytype.nvim]], true)
+try_loadstring("\27LJ\2\n;\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\14duckytype\frequire\0", "config", "duckytype.nvim")
+time([[Config for duckytype.nvim]], false)
+-- Config for: rose-pine
+time([[Config for rose-pine]], true)
+try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\26colorscheme rose-pine\bcmd\bvim\0", "config", "rose-pine")
+time([[Config for rose-pine]], false)
+-- Config for: Comment.nvim
+time([[Config for Comment.nvim]], true)
+try_loadstring("\27LJ\2\n®\1\0\0\4\0\b\0\v6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\0025\3\6\0=\3\a\2B\0\2\1K\0\1\0\ropleader\1\0\2\tline\14<leader>c\nblock\14<leader>b\ftoggler\1\0\2\ropleader\0\ftoggler\0\1\0\2\tline\acc\nblock\15<leader>bb\nsetup\fComment\frequire\0", "config", "Comment.nvim")
+time([[Config for Comment.nvim]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
