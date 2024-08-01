@@ -29,7 +29,7 @@ return {
         "VonHeikemen/lsp-zero.nvim",
         branch = "v3.x",
         -- requires = {
-            -- LSP Support
+        -- LSP Support
         -- }
     },
     { "neovim/nvim-lspconfig" },
@@ -46,25 +46,33 @@ return {
     { "rafamadriz/friendly-snippets" },
     {
         "windwp/nvim-autopairs",
-        config = function() require("nvim-autopairs").setup {} end
+        -- config = function() require("nvim-autopairs").setup {} end
+        event = "InsertEnter",
+        config = true
     },
-    { "github/copilot.vim"},
+    { "github/copilot.vim" },
     {
         'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup({
-                toggler = { line = 'cc', block = '<leader>bb' },
-                opleader = { line = '<leader>c', block = '<leader>b' },
-            }
-            )
-        end
+        opts = {
+            toggler = { line = 'cc', block = '<leader>bb' },
+            opleader = { line = '<leader>c', block = '<leader>b' },
+        }
     },
+    -- {
+    --     "iamcco/markdown-preview.nvim",
+    --     run = "cd app && npm install",
+    --     setup = function()
+    --         vim.g.mkdp_filetypes = {
+    --             "markdown" }
+    --     end,
+    --     ft = { "markdown" },
+    -- },
     {
         "iamcco/markdown-preview.nvim",
-        run = "cd app && npm install",
-        setup = function()
-            vim.g.mkdp_filetypes = {
-                "markdown" }
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        build = "cd app && yarn install",
+        init = function()
+            vim.g.mkdp_filetypes = { "markdown" }
         end,
         ft = { "markdown" },
     },
@@ -84,7 +92,8 @@ return {
     --     end,
     --
     -- },
-    { "kwakzalver/duckytype.nvim",
+    {
+        "kwakzalver/duckytype.nvim",
         config = function()
             require('duckytype').setup({})
         end
@@ -92,6 +101,6 @@ return {
 
     {
         'nvim-lualine/lualine.nvim',
-        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+        dependencies = { 'nvim-tree/nvim-web-devicons' }
     },
 }
