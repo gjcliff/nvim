@@ -4,6 +4,9 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 -- my stuff - Graham
 vim.keymap.set("i", "<S-Tab>", "<C-d>")
 vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+-- vim.keymap.set("i", "<C-n>n", "")
+vim.api.nvim_set_keymap('t', '<C-n>', '<C-\\><C-n>', { noremap = true, silent = true })
+
 
 -- -- jukit
 -- -- Opens a new output window and executes the command specified in `g:jukit_shell_cmd`
@@ -131,7 +134,7 @@ vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux new tmux-sessionizer<CR>")
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 vim.keymap.set("n", "<C-h>", "<cmd>cnext<CR>zz")

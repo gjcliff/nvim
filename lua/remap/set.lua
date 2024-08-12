@@ -41,12 +41,12 @@ vim.lsp.buf.code_action()
 
 -- Set indenting options for C++ files
 vim.cmd([[
-  autocmd FileType cpp setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
+  autocmd FileType cpp setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
 ]], false)
 
 -- Set indenting options for C++ files
 vim.cmd([[
-  autocmd FileType c setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
+  autocmd FileType c setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
 ]], false)
 
 -- Set indenting options for Python files
