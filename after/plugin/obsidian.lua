@@ -11,7 +11,15 @@ require("obsidian").setup({
         {
             name = "github",
             path = "~/Work/notes/obsidian/work/"
-        }
+        },
+        {
+            name = "personal",
+            path = "~/Documents/obsidian/my_vault/",
+        },
+        {
+            name = "nvim",
+            path = "~/Documents/obsidian/nvim_vault/",
+        },
 },
     completion = {
         nvim_cmp = true,
