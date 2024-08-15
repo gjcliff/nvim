@@ -2,12 +2,12 @@ require("obsidian").setup({
     workspaces = {
         {
             name = "personal",
-            path = "~/Documents/personal/nvim_vault/",
+            path = "~/Documents/obsidian/my_vault/",
         },
-        -- {
-        --     name = "work",
-        --     path = "~/Work/Obsidian/my_vault/",
-        -- },
+        {
+            name = "nvim",
+            path = "~/Documents/obsidian/nvim_vault/",
+        },
     },
     completion = {
         nvim_cmp = true,

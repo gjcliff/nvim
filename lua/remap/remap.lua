@@ -7,6 +7,16 @@ vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 -- vim.keymap.set("i", "<C-n>n", "")
 vim.api.nvim_set_keymap('t', '<C-n>', '<C-\\><C-n>', { noremap = true, silent = true })
 
+vim.keymap.set("n", "<leader>o", "<cmd>e ~/Documents/obsidian/nvim_vault/Welcome.md<CR>")
+vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>")
+vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianNewFromTemplate<CR>")
+vim.keymap.set("n", "<leader>oc", "<cmd>ObsidianDailies<CR>")
+vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailiesTomorrow<CR>")
+vim.keymap.set("n", "<leader>oy", "<cmd>ObsidianDailiesYesterday<CR>")
+-- vim.keymap.set("n", "<leader>oy", function()
+--     )
+
+
 
 -- -- jukit
 -- -- Opens a new output window and executes the command specified in `g:jukit_shell_cmd`
