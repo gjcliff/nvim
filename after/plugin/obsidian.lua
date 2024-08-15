@@ -1,14 +1,18 @@
 require("obsidian").setup({
     workspaces = {
         {
-            name = "personal",
-            path = "~/Documents/personal/nvim_vault/",
+            name = "nvim",
+            path = "~/Work/Obsidian/nvim_vault/",
         },
-        -- {
-        --     name = "work",
-        --     path = "~/Work/Obsidian/my_vault/",
-        -- },
-    },
+        {
+            name = "work",
+            path = "~/Work/Obsidian/my_vault/",
+        },
+        {
+            name = "github",
+            path = "~/Work/notes/obsidian/work/"
+        }
+},
     completion = {
         nvim_cmp = true,
         min_chars = 2,
@@ -63,7 +67,7 @@ require("obsidian").setup({
     end,
     templates = {
         folder = "templates",
-        date_format = "%Y-%m-%d-%a",
+        date_format = "%Y-%m-%d",
         time_format = "%H:%M",
         -- A map for custom variables, the key should be the variable and the value a function
         -- substitutions = {
@@ -72,4 +76,6 @@ require("obsidian").setup({
         --     end
         -- }
     },
+    notes_subdir = "Oceancomm",
+    new_notes_location = "notes_subdir"
 })
