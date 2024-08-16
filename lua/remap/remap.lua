@@ -7,14 +7,20 @@ vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 -- vim.keymap.set("i", "<C-n>n", "")
 vim.api.nvim_set_keymap('t', '<C-n>', '<C-\\><C-n>', { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader>o", "<cmd>e ~/Documents/obsidian/nvim_vault/Welcome.md<CR>")
+-- obsidian
+vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Work/notes/obsidian/work/Oceancomm.md<CR>")
 vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>")
 vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianNewFromTemplate<CR>")
 vim.keymap.set("n", "<leader>oc", "<cmd>ObsidianDailies<CR>")
 vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailiesTomorrow<CR>")
 vim.keymap.set("n", "<leader>oy", "<cmd>ObsidianDailiesYesterday<CR>")
+vim.keymap.set("n", "<leader>oh", "<cmd>ObsidianTemplate<CR>")
 -- vim.keymap.set("n", "<leader>oy", function()
---     )
+    --     )
+
+-- formatting
+vim.keymap.set("n", "<leader>bb", "<cmd>!black %<CR>")
+
 
 
 
@@ -85,7 +91,7 @@ vim.keymap.set("n", "<leader>oy", "<cmd>ObsidianDailiesYesterday<CR>")
 -- vim.keymap.set("n", "<leader>np", ":call jukit#convert#notebook_convert('jupyter-notebook')<cr>", {noremap=true})
 -- -- Convert from ipynb to py or vice versa. Argument: Optional. If an argument is specified, then its value is used to open the resulting ipynb file after converting script.
 -- vim.keymap.set("n", "<leader>ht", ":call jukit#convert#save_nb_to_file(0,1,'html')<cr>", {noremap=true})
--- -- Convert file to html (including all saved outputs) and open it using the command specified in `g:jukit_html_viewer'. If `g:jukit_html_viewer` is not defined, then will default to `g:jukit_html_viewer='xdg-open'`. Arguments: 1.: Whether to rerun all cells when converting 2.: Whether to open it after converting 3.: filetype to convert to 
+-- -- Convert file to html (including all saved outputs) and open it using the command specified in `g:jukit_html_viewer'. If `g:jukit_html_viewer` is not defined, then will default to `g:jukit_html_viewer='xdg-open'`. Arguments: 1.: Whether to rerun all cells when converting 2.: Whether to open it after converting 3.: filetype to convert to
 -- vim.keymap.set("n", "<leader>rht", ":call jukit#convert#save_nb_to_file(1,1,'html')<cr>", {noremap=true})
 -- -- Same as above, but will (re-)run all cells when converting to html
 -- vim.keymap.set("n", "<leader>pd", ":call jukit#convert#save_nb_to_file(0,1,'pdf')<cr>", {noremap=true})
@@ -135,10 +141,10 @@ end)
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
@@ -166,4 +172,3 @@ vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
-
