@@ -2,12 +2,8 @@ require("obsidian").setup({
     workspaces = {
         {
             name = "github",
-            path = "~/Work/notes/obsidian/work/"
+            path = "~/Work/notes/obsidian/oceancomm/"
         },
-        -- {
-        --     name = "nvim",
-        --     path = "~/Documents/obsidian/nvim_vault/",
-        -- },
 },
     completion = {
         nvim_cmp = true,
