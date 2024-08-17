@@ -2,11 +2,15 @@ require("obsidian").setup({
     workspaces = {
         {
             name = "personal",
-            path = "~/Documents/obsidian/my_vault/",
+            path = "~/Documents/obsidian/home/",
         },
         {
-            name = "nvim",
-            path = "~/Documents/obsidian/nvim_vault/",
+            name = "playground",
+            path = "~/Documents/obsidian/playground/",
+        },
+        {
+            name = "oceancomm",
+            path = "~/Documents/obsidian/oceancomm/",
         },
     },
     completion = {
