@@ -5,3 +5,10 @@ vim.keymap.set('n', '<leader>ps', function()
 	builtin.grep_string({ search = vim.fn.input("Grep > ") });
 end)
 
+vim.keymap.set('n', 'gr', function()
+    builtin.lsp_references({ buffer = vim.fn.expand("<abuf>") })
+end, { desc = "LSP: [G]oto [R]eferences" });
+
+vim.keymap.set('n', 'gd', function()
+    builtin.lsp_definitions({ buffer = vim.fn.expand("<abuf>") })
+end, { desc = "LSP: [G]oto [D]efinition " });
