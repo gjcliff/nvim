@@ -9,8 +9,9 @@
 ## Installation
 1. Follow Neovim's installation instructions here:
 https://github.com/neovim/neovim/blob/master/INSTALL.md
+    * Don't install from apt, you're gonna want the most recent version
 
-2. Clone this repo into your ~/.config/ directory and rename it to 'nvim'
+2. Clone this repo into your ~/.config/ directory
 3. Type ```nvim``` into your terminal to open Neovim
 
 ## Usage
