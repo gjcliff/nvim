@@ -11,10 +11,14 @@ vim.api.nvim_set_keymap('t', '<C-n>', '<C-\\><C-n>', { noremap = true, silent = 
 vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Work/notes/obsidian/work/Oceancomm.md<CR>")
 vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>")
 vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianNewFromTemplate<CR>")
-vim.keymap.set("n", "<leader>oc", "<cmd>ObsidianDailies<CR>")
-vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailiesTomorrow<CR>")
+vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailies<CR>")
 vim.keymap.set("n", "<leader>oy", "<cmd>ObsidianDailiesYesterday<CR>")
+<<<<<<< HEAD
 vim.keymap.set("n", "<leader>oh", "<cmd>ObsidianTemplate<CR>")
+=======
+vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianLink<CR>")
+
+>>>>>>> home
 -- vim.keymap.set("n", "<leader>oy", function()
     --     )
 

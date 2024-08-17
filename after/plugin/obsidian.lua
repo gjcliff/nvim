@@ -1,6 +1,7 @@
 require("obsidian").setup({
     workspaces = {
         {
+<<<<<<< HEAD
             name = "github",
             path = "~/Work/notes/obsidian/work/"
         },
@@ -9,6 +10,20 @@ require("obsidian").setup({
         --     path = "~/Documents/obsidian/nvim_vault/",
         -- },
 },
+=======
+            name = "personal",
+            path = "~/Documents/obsidian/home/",
+        },
+        {
+            name = "playground",
+            path = "~/Documents/obsidian/playground/",
+        },
+        {
+            name = "oceancomm",
+            path = "~/Documents/obsidian/oceancomm/",
+        },
+    },
+>>>>>>> home
     completion = {
         nvim_cmp = true,
         min_chars = 2,
