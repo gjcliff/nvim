@@ -50,7 +50,7 @@ return {
         event = "InsertEnter",
         config = true
     },
-    { "github/copilot.vim" },
+    -- { "github/copilot.vim" },
     {
         'numToStr/Comment.nvim',
         opts = {
@@ -58,15 +58,6 @@ return {
             opleader = { line = '<leader>c', block = '<leader>b' },
         }
     },
-    -- {
-    --     "iamcco/markdown-preview.nvim",
-    --     run = "cd app && npm install",
-    --     setup = function()
-    --         vim.g.mkdp_filetypes = {
-    --             "markdown" }
-    --     end,
-    --     ft = { "markdown" },
-    -- },
     {
         "iamcco/markdown-preview.nvim",
         cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },

@@ -6,116 +6,41 @@
 3. [Installation](#installation)
 <!--toc:end-->
 
-My Neovim configuration that I use for pretty much everything I do on my computer.
-
-## Introduction
-I began learning vim motions while using vscode starting in January 2024 as a
-result of burnout, and because I was binging a lot of [The Primeagen](https://www.youtube.com/c/theprimeagen) on YouTube.
-Watching the speed at which he was moving around between files and editing text
-was just absolutely astounding to me, so I set off to try and learn how to do
-what he was doing. At first, it sort of felt like I was playing a little mini-game
-while I was programming, which helped me to stay focused. After basically crippling
-my ability to type or move fast at all while programming, I slowly started getting better and
-better, and eventually I actually became faster than I ever was before using vim motions.
-
-Also, I watched [these tutorial videos](https://www.youtube.com/playlist?list=PLm323Lc7iSW_wuxqmKx_xxNtJC_hJbQ7R) a few times each which helped me learn some
-more advance movements.
-
-![vim-learning-curve](https://github.com/gjcliff/Neovim/assets/94981561/94d56d86-56ff-48a5-bb03-17ad4e044076)
-
-Eventually, I started to get interested in using Neovim as a replacement for
-vscode because I'm not like the other girls. By following the [Primeagen's
-guide](https://youtu.be/w7i4amO_zaE?si=VJtjJaHgbMDPpGRT) on how to set up Neovim,
-plus a couple hours of troubleshooting, I was able to stand up my initial
-Neovim configuration. Over the past few months I've added a bunch of plugins that
-have really helped me to be more productive. My two favorite are:
-* [Harpoon](https://github.com/ThePrimeagen/harpoon)
-    * File navigation help, once you get good you can really just fly around your
-    projects.
-* [vim-jukit](https://github.com/luk400/vim-jukit)
-    * Create and run Jupyter notebooks in your terminal!
-
 ## Installation
 1. Follow Neovim's installation instructions here:
 https://github.com/neovim/neovim/blob/master/INSTALL.md
 
-2. Clone this repository somewhere, and move the "after/" and "lua/" directories
-and the "init.lua" file to your ~/.config/nvim/ directory.
-
-3. *Optional* I don't like typing "nvim" to open Neovim, it's just soooooooooo
-many letters. Instead I went into my bashrc file and added the following line:
-```bash
-alias vim='nvim'
-```
-Just think about how many seconds this saves over the course of your life! Thank
-me later.
-
-4. Now it's time to actually install the plugins. Navigate to the ~/.config/nvim/
-directory and type the following command:
-```bash
-$ nvim lua/graham/packer.lua
-```
-Or, if you put the alias in your bashrc file:
-```bash
-$ vim lua/graham/packer.lua
-```
-
-Once there, type the following command:
-```vim
-:so
-```
-This will source the packer.lua file and allow you to run packer commands. Next,
-run the following command:
-```vim
-:PackerSync
-```
-
-Now you should start to see a bunch of stuff getting installed, nice!
-
-5. There's one more step, which is to open up Mason and start to install some
-language servers and formatters. Below I've put a list of all the ones I have
-installed:
-* cmake-language-server (cmake language server)
-* clangd (c++ and c language server)
-* efm (general purpose language server)
-* jedi-language-server (python language server)
-* clang-format (c++ and c formatting)
-* black (python formatting)
-* lua-language-server (lua language server)
-* html-lsp (html language server)
-* ltex-ls (latex language server)
-* marksman (markdown language server)
-* shfmt (shell formatting)
-* stylua (lua formatting)
+2. Clone this repo into your ~/.config/ directory and rename it to 'nvim'
+3. Type ```nvim``` into your terminal to open Neovim
 
 ## Usage
-My config has a bunch of plugins and custom keybindings. I would recommend watching
-The Primeagen's video on his Neovim setup at the very least so you can listen to
-an explanation of the more general purpose custom keybinds that I use to navigate around.
+* Look at the nvim/lua/remap/remap.lua file to see the keybindings I have setup.
+* Change configuration options for nvim in nvim/lua/remap/set.lua
+* See what plugins I have installed in nvim/lua/plugins/plugins.lua
+    * "nvim-telescope/telescope.nvim",
+    * "rose-pine/neovim"
+    * "nvim-treesitter/nvim-treesitter"
+    * "ThePrimeagen/harpoon"
+    * "mbbill/undotree"
+    * "tpope/vim-fugitive"
+    * "VonHeikemen/lsp-zero.nvim"
+    * "neovim/nvim-lspconfig"
+    * "williamboman/mason.nvim"
+    * "williamboman/mason-lspconfig.nvim"
+    * "hrsh7th/nvim-cmp"
+    * "hrsh7th/cmp-nvim-lsp"
+    * "hrsh7th/cmp-buffer"
+    * "hrsh7th/cmp-path"
+    * "saadparwaiz1/cmp_luasnip"
+    * "hrsh7th/cmp-nvim-lua"
+    * "L3MON4D3/LuaSnip"
+    * "rafamadriz/friendly-snippets"
+    * "windwp/nvim-autopairs"
+    * "numToStr/Comment.nvim"
+    * "iamcco/markdown-preview.nvim"
+    * "rcarriga/nvim-notify"
+    * "kwakzalver/duckytype.nvim"
+    * "nvim-lualine/lualine.nvim"
 
-The main (and I think only) difference between the basic keybindings
-of my config and The Primeagen's is that I only use "ctrl+k" and "ctrl+j" to move
-between files in Harpoon. For reference, The Primeagen only uses "ctrl+j",
-"ctrl+k", "ctrl+l", and "ctrl+;" to move between files, which means he can only
-have four files in his Harpoon buffer at a time. My projects usually use a lot
-more than four files, so I like to be able have as many as I want and just scroll
-through the list with "ctrl+j" and "ctrl+k".
-
-To finish, I have a quick note on my C++ language server setup. Since I'm using
-clangd, it's important to have a compile_commands.json file in the root of your
-project. This file is generated by cmake, and it tells clangd how to compile your
-project. If you don't have this file, clangd will not be able to provide you with
-any code completion and your files will be literally full of errors. To avoid this,
-put the following command in your cmake file somewhere:
-```cmake
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-```
-This should put a compile_commands.json file in the build directory of your
-cmake project.
-
-For C projects, you can use [bear](https://github.com/rizsotto/Bear) to generate
-the compile_commands.json file.
-
-
-
-
+The configurations for some of these plugins can be found in the after/plugins
+directory.
