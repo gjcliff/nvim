@@ -8,21 +8,16 @@ vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 vim.api.nvim_set_keymap('t', '<C-n>', '<C-\\><C-n>', { noremap = true, silent = true })
 
 -- obsidian
-vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Work/notes/obsidian/work/Oceancomm.md<CR>")
+vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Documents/obsidian/oceancomm/Oceancomm.md<CR>")
 vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>")
-vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianNewFromTemplate<CR>")
-vim.keymap.set("n", "<leader>oc", "<cmd>ObsidianDailies<CR>")
-vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailiesTomorrow<CR>")
+vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianTask<CR>")
+vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailies<CR>")
 vim.keymap.set("n", "<leader>oy", "<cmd>ObsidianDailiesYesterday<CR>")
 vim.keymap.set("n", "<leader>oh", "<cmd>ObsidianTemplate<CR>")
--- vim.keymap.set("n", "<leader>oy", function()
-    --     )
+vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianLink<CR>")
 
 -- formatting
 vim.keymap.set("n", "<leader>bb", "<cmd>!black %<CR>")
-
-
-
 
 -- -- jukit
 -- -- Opens a new output window and executes the command specified in `g:jukit_shell_cmd`

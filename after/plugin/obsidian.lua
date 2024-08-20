@@ -4,7 +4,7 @@ require("obsidian").setup({
             name = "github",
             path = "~/Work/notes/obsidian/oceancomm/"
         },
-},
+    },
     completion = {
         nvim_cmp = true,
         min_chars = 2,
