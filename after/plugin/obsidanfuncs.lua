@@ -39,32 +39,32 @@ vim.api.nvim_create_user_command('ObsidianTask', function(opts)
 end, { nargs = 1 })
 
 -- Create a new link from template from highlighted text
-vim.api.nvim_create_user_command('ObsidianFromSelection', function()
-    -- Get the selected text positions
-    local start_pos = vim.fn.getpos("'<")
-    local end_pos = vim.fn.getpos("'>")
-    local line_start = start_pos[2]
-    local line_end = end_pos[2]
-    local start_row, start_col = start_pos[2], start_pos[3]
-    local end_row, end_col = end_pos[2], end_pos[3]
-    -- Get the selected text
-    local selected_text = vim.fn.getline(line_start,line_end)
-    -- local selected_text = vim.fn.getline(start_row, start_row):sub(start_col, end_col)
-
-    -- Escape quotes in the selected text
-    local title = selected_text:gsub('"', '\\"')
-
-    -- Create the note using the template
-    local command = string.format(
-        'ObsidianNewFromTemplate "@{%s} %s.md"',
-        os.date("%Y-%m-%d", os.time()),
-        title
-    )
-    vim.cmd(command)
-
-    -- Create the link to the new note
-    local link = string.format("[[%s]]", title)
-
-    -- Replace the selected text with the link
-    vim.api.nvim_buf_set_text(0, start_row - 1, start_col - 1, end_row - 1, end_col, { link })
-end, {})
+-- vim.api.nvim_create_user_command('ObsidianFromSelection', function()
+--     -- Get the selected text positions
+--     local start_pos = vim.fn.getpos("'<")
+--     local end_pos = vim.fn.getpos("'>")
+--     local line_start = start_pos[2]
+--     local line_end = end_pos[2]
+--     local start_row, start_col = start_pos[2], start_pos[3]
+--     local end_row, end_col = end_pos[2], end_pos[3]
+--     -- Get the selected text
+--     local selected_text = vim.fn.getline(line_start,line_end)
+--     -- local selected_text = vim.fn.getline(start_row, start_row):sub(start_col, end_col)
+--
+--     -- Escape quotes in the selected text
+--     local title = selected_text:gsub('"', '\\"')
+--
+--     -- Create the note using the template
+--     local cmd = string.format(
+--         'ObsidianNewFromTemplate "@{%s} %s.md"',
+--         os.date("%Y-%m-%d", os.time()),
+--         title
+--     )
+--     vim.cmd(cmd)
+--
+--     -- Create the link to the new note
+--     local link = string.format("[[%s]]", title)
+--
+--     -- Replace the selected text with the link
+--     vim.api.nvim_buf_set_text(0, start_row - 1, start_col - 1, end_row - 1, end_col, { link })
+-- end, {})
