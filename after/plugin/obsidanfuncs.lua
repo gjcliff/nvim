@@ -17,8 +17,6 @@ local function create_note_with_template(opts)
         return
     end
 
-    -- Define the template name
-    local template_name = "task.md" -- Replace with your template name
     -- Define the directory where notes are stored (optional)
     -- local notes_dir = "~/Documents/obsidian/oceancomm/Oceancomm" -- Update as needed
 
