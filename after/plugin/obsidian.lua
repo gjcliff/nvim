@@ -1,8 +1,11 @@
 require("obsidian").setup({
+    ui = {
+        enable = false
+    },
     workspaces = {
         {
-            name = "github",
-            path = "~/Work/notes/obsidian/oceancomm/"
+            name = "oceancomm",
+            path = "~/Documents/obsidian/oceancomm/",
         },
     },
     completion = {
@@ -69,5 +72,7 @@ require("obsidian").setup({
         -- }
     },
     notes_subdir = "Oceancomm",
-    new_notes_location = "notes_subdir"
+    new_notes_location = "notes_subdir",
+    log_level = vim.log.levels.INFO,
+    open_notes_in = "vsplit",
 })

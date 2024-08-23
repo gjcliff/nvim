@@ -1,5 +1,8 @@
 return {
     {
+        "tpope/vim-vinegar"
+    },
+    {
         "nvim-telescope/telescope.nvim",
         tag = "0.1.5",
         requires = { { "nvim-lua/plenary.nvim" } }
