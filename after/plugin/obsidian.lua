@@ -1,13 +1,8 @@
 require("obsidian").setup({
+    ui = {
+        enable = false
+    },
     workspaces = {
-        {
-            name = "personal",
-            path = "~/Documents/obsidian/home/",
-        },
-        {
-            name = "playground",
-            path = "~/Documents/obsidian/playground/",
-        },
         {
             name = "oceancomm",
             path = "~/Documents/obsidian/oceancomm/",
@@ -77,5 +72,7 @@ require("obsidian").setup({
         -- }
     },
     notes_subdir = "Oceancomm",
-    new_notes_location = "notes_subdir"
+    new_notes_location = "notes_subdir",
+    log_level = vim.log.levels.INFO,
+    open_notes_in = "vsplit",
 })
