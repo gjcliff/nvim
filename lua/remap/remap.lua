@@ -8,7 +8,7 @@ vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 vim.api.nvim_set_keymap('t', '<C-n>', '<C-\\><C-n>', { noremap = true, silent = true })
 
 -- obsidian
-vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Documents/obsidian/oceancomm/Oceancomm.md<CR>")
+vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Work/notes/obsidian/oceancomm/Oceancomm.md<CR>")
 vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>")
 vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianTask<CR>")
 vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailies<CR>")
