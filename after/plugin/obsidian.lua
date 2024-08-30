@@ -5,7 +5,7 @@ require("obsidian").setup({
     workspaces = {
         {
             name = "oceancomm",
-            path = "~/Documents/obsidian/oceancomm/",
+            path = "~/Work/notes/obsidian/oceancomm/",
         },
     },
     completion = {
