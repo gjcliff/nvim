@@ -4,8 +4,16 @@ require("obsidian").setup({
     },
     workspaces = {
         {
+            name = "playground",
+            path = "~/Documents/obsidian/playground/"
+        },
+        {
             name = "oceancomm",
             path = "~/Documents/obsidian/oceancomm/",
+        },
+        {
+            name = "home",
+            path = "~/Documents/obsidian/home/"
         },
     },
     completion = {
@@ -71,7 +79,7 @@ require("obsidian").setup({
         --     end
         -- }
     },
-    notes_subdir = "Oceancomm",
+    notes_subdir = "playground",
     new_notes_location = "notes_subdir",
     log_level = vim.log.levels.INFO,
     open_notes_in = "vsplit",

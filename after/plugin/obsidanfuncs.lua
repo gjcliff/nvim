@@ -1,12 +1,3 @@
-vim.api.nvim_create_user_command('ObsidianNewTask', function()
-    -- Prompt the user for input
-    local input = vim.fn.input('Enter file name: ')
-
-    -- Construct and execute the command with user input
-    vim.cmd('ObsidianNewFromTemplate ' .. input)
-end, {})
-
--- Create a task and insert link in current file
 local function create_note_with_template(opts)
     -- Prompt the user for the note title
     local title = opts.args

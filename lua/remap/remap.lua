@@ -8,13 +8,12 @@ vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 vim.api.nvim_set_keymap('t', '<C-n>', '<C-\\><C-n>', { noremap = true, silent = true })
 
 -- obsidian
-vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Documents/obsidian/oceancomm/Oceancomm.md<CR>")
-vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>")
+vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Documents/obsidian/<CR>")
 vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianTask<CR>")
 vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailies<CR>")
-vim.keymap.set("n", "<leader>oy", "<cmd>ObsidianDailiesYesterday<CR>")
-vim.keymap.set("n", "<leader>oh", "<cmd>ObsidianTemplate<CR>")
-vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianLink<CR>")
+vim.keymap.set({"n", "v"}, "<leader>ol", "<cmd>ObsidianLink<CR>")
+vim.keymap.set({"n", "v"}, "<leader>on", "<cmd>ObsidianLinkNew<CR>")
+vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>")
 
 -- formatting
 vim.keymap.set("n", "<leader>bb", "<cmd>!black %<CR>")
