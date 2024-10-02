@@ -2,7 +2,7 @@
 package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/magick/init.lua;"
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 
--- vim.g.netrw_liststyle = 1
+vim.g.netrw_liststyle = 3
 -- vim.g.netrw_syncolor = 1
 -- vim.g.netrw_list_hide = "git:*.git"
 -- vim.g.netrw_banner = 0
@@ -47,16 +47,25 @@ vim.lsp.buf.code_action()
 -- vim.cmd([[autocmd FileType python autocmd BufWritePre <buffer> :!black %]])
 
 -- Set indenting options for C++ files
-vim.cmd([[
+vim.cmd(
+	[[
   autocmd FileType cpp setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
-]], false)
+]],
+	false
+)
 
 -- Set indenting options for C++ files
-vim.cmd([[
+vim.cmd(
+	[[
   autocmd FileType c setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
-]], false)
+]],
+	false
+)
 
 -- Set indenting options for Python files
-vim.cmd([[
+vim.cmd(
+	[[
   autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
-]], false)
+]],
+	false
+)

@@ -15,11 +15,13 @@ lsp_zero.on_attach(function(client, bufnr)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
+-- lsp_zero.setup_servers({'jedi_language_server, clangd'}) -- throwing errors when sourcing (:so)
+
 -- to learn how to use mason.nvim with lsp-zero
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
-require('mason').setup({})
+require('mason').setup()
 require('mason-lspconfig').setup({
-    ensure_installed = { 'cmake', 'clangd', 'jedi_language_server', 'marksman', 'ltex' },
+    ensure_installed = { 'cmake', 'clangd', 'jedi_language_server' },
     handlers = {
         function(server_name)
             require('lspconfig')[server_name].setup({})

@@ -4,16 +4,25 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 -- my stuff - Graham
 vim.keymap.set("i", "<S-Tab>", "<C-d>")
 vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+
+vim.keymap.set("n", "<M-j>", "<C-w>5+", { noremap = true, silent = true })
+vim.keymap.set("n", "<M-k>", "<C-w>5-", { noremap = true, silent = true })
+vim.keymap.set("n", "<M-h>", "<C-w>5>", { noremap = true, silent = true })
+vim.keymap.set("n", "<M-l>", "<C-w>5<", { noremap = true, silent = true })
 -- vim.keymap.set("i", "<C-n>n", "")
-vim.api.nvim_set_keymap('t', '<C-n>', '<C-\\><C-n>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true })
 
 -- obsidian
 vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Documents/obsidian/<CR>")
-vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianTask<CR>")
 vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailies<CR>")
-vim.keymap.set({"n", "v"}, "<leader>ol", "<cmd>ObsidianLink<CR>")
-vim.keymap.set({"n", "v"}, "<leader>on", "<cmd>ObsidianLinkNew<CR>")
+vim.keymap.set({ "n", "v" }, "<leader>ol", "<cmd>ObsidianLink<CR>")
+vim.keymap.set({ "n", "v" }, "<leader>on", "<cmd>ObsidianLinkNew<CR>")
 vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>")
+vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>")
+vim.keymap.set("n", "<leader>oj", "<cmd>ObsidianJournal<CR>")
+
+-- config
+vim.keymap.set("n", "<leader>cc", "<cmd>e ~/.config/nvim/<CR>")
 
 -- formatting
 vim.keymap.set("n", "<leader>bb", "<cmd>!black %<CR>")
@@ -125,10 +134,10 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "<leader>vwm", function()
-    require("vim-with-me").StartVimWithMe()
+	require("vim-with-me").StartVimWithMe()
 end)
 vim.keymap.set("n", "<leader>svwm", function()
-    require("vim-with-me").StopVimWithMe()
+	require("vim-with-me").StopVimWithMe()
 end)
 
 -- greatest remap ever
@@ -146,6 +155,7 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !~/.config/nvim/lua/scripts/tmux.sh && vim .<CR>")
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+-- vim.keymap.set("v", "<leader>f", vim.lsp.formatexpr) -- why no work
 
 vim.keymap.set("n", "<C-h>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-l>", "<cmd>cprev<CR>zz")
@@ -155,14 +165,10 @@ vim.keymap.set("n", "<leader>l", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
-vim.keymap.set(
-    "n",
-    "<leader>ee",
-    "oif err != nil {<CR>}<Esc>Oreturn err<Esc>"
-)
+vim.keymap.set("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn err<Esc>")
 
-vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
+vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>")
 
 vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
+	vim.cmd("so")
 end)
