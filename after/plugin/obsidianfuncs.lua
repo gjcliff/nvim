@@ -41,6 +41,21 @@ vim.api.nvim_create_user_command("ObsidianJournal", function()
 	create_journal_entry()
 end, {})
 
+local function create_daily_note()
+	-- vim.cmd("normal! O")
+	local link = string.format("[[%s]]", os.date("%Y-%m-%d", os.time()))
+	vim.api.nvim_put({ link }, "c", true, true) -- Insert the link at cursor position
+
+	-- Create the note with the specific template
+	-- local command = string.format("ObsidianNewFromTemplate %s", string.format("%s.md", os.date("%Y-%m-%d")))
+	-- vim.cmd(command)
+	-- vim.api.nvim_put({ os.date("%Y-%m-%d") }, "l", true, true) -- Insert the date at the beginning of the note
+	vim.cmd("ObsidianToday")
+end
+vim.api.nvim_create_user_command("ObsidianDailyNote", function()
+	create_daily_note()
+end, {})
+
 -- Create a new link from template from highlighted text
 vim.api.nvim_create_user_command("ObsidianFromSelection", function()
 	-- Get the selected text positions

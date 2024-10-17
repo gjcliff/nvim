@@ -6,6 +6,8 @@ vim.g.netrw_liststyle = 3
 -- vim.g.netrw_syncolor = 1
 -- vim.g.netrw_list_hide = "git:*.git"
 -- vim.g.netrw_banner = 0
+--
+vim.g.python3_host_prog = "/usr/bin/python3"
 
 vim.opt.conceallevel = 2
 
@@ -49,7 +51,7 @@ vim.lsp.buf.code_action()
 -- Set indenting options for C++ files
 vim.cmd(
 	[[
-  autocmd FileType cpp setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
+  autocmd FileType cpp setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
 ]],
 	false
 )
@@ -57,7 +59,7 @@ vim.cmd(
 -- Set indenting options for C++ files
 vim.cmd(
 	[[
-  autocmd FileType c setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
+  autocmd FileType c setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
 ]],
 	false
 )
