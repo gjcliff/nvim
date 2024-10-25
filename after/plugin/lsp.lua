@@ -41,14 +41,14 @@ end)
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
 require("mason").setup()
 require("mason-lspconfig").setup({
-	ensure_installed = { "cmake", "clangd", "jedi_language_server" },
+	ensure_installed = { "cmake", "clangd" },
 	handlers = {
-		["jedi_language_server"] = function()
-			require("lspconfig").jedi_language_server.setup({
-				capabilities = lsp_zero.capabilities,
-				filetypes = { "python" },
-			})
-		end,
+		-- ["jedi_language_server"] = function()
+		-- 	require("lspconfig").jedi_language_server.setup({
+		-- 		-- capabilities = lsp_zero.capabilities,
+		-- 		filetypes = { "python" },
+		-- 	})
+		-- end,
 		function(server_name)
 			require("lspconfig")[server_name].setup({})
 		end,

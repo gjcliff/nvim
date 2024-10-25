@@ -41,6 +41,14 @@ vim.api.nvim_create_user_command("ObsidianJournal", function()
 	create_journal_entry()
 end, {})
 
+local function create_link_to_index()
+	local link = "[[Index]]"
+	vim.api.nvim_put({ link }, "c", true, true) -- Insert the link at cursor position
+end
+vim.api.nvim_create_user_command("ObsidianIndex", function()
+	create_link_to_index()
+end, {})
+
 local function create_daily_note()
 	-- vim.cmd("normal! O")
 	local link = string.format("[[%s]]", os.date("%Y-%m-%d", os.time()))

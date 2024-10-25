@@ -21,12 +21,13 @@ vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>")
 vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>")
 vim.keymap.set("n", "<leader>oj", "<cmd>ObsidianJournal<CR>")
 vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianDailyNote<CR>")
+vim.keymap.set("n", "<leader>oi", "<cmd>ObsidianIndex<CR>")
 
 -- config
 vim.keymap.set("n", "<leader>cc", "<cmd>e ~/.config/nvim/<CR>")
 
 -- formatting
-vim.keymap.set("n", "<leader>bb", "<cmd>!black %<CR>")
+vim.keymap.set("n", "<leader>bb", "<cmd>!black --config ~/.config/black/pyproject.toml --preview %<CR>")
 
 -- -- jukit
 -- -- Opens a new output window and executes the command specified in `g:jukit_shell_cmd`
