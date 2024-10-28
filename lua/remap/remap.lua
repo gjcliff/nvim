@@ -29,6 +29,9 @@ vim.keymap.set("n", "<leader>cc", "<cmd>e ~/.config/nvim/<CR>")
 -- formatting
 vim.keymap.set("n", "<leader>bb", "<cmd>!black --config ~/.config/black/pyproject.toml --preview %<CR>")
 
+-- lsp
+vim.keymap.set("n", "<leader>lr", "<cmd>LspRestart<CR>")
+
 -- -- jukit
 -- -- Opens a new output window and executes the command specified in `g:jukit_shell_cmd`
 -- vim.keymap.set("n", "<leader>os", ":call jukit#splits#output()<cr>", {noremap=true})
