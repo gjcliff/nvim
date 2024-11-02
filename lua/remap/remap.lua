@@ -20,7 +20,7 @@ vim.keymap.set({ "n", "v" }, "<leader>on", "<cmd>ObsidianLinkNew<CR>")
 vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>")
 vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>")
 vim.keymap.set("n", "<leader>oj", "<cmd>ObsidianJournal<CR>")
-vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianDailyNote<CR>")
+vim.keymap.set("n", "<leader>ot", "<cmd>e ~/Documents/obsidian/playground/playground/Tasks.md<CR>")
 vim.keymap.set("n", "<leader>oi", "<cmd>ObsidianIndex<CR>")
 
 -- config
