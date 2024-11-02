@@ -6,9 +6,14 @@ vim.keymap.set('n', '<leader>ps', function()
 end)
 
 vim.keymap.set('n', 'gr', function()
-    builtin.lsp_references({ buffer = vim.fn.expand("<abuf>") })
+    builtin.lsp_references()
 end, { desc = "LSP: [G]oto [R]eferences" });
 
-vim.keymap.set('n', 'gd', function()
-    builtin.lsp_definitions({ buffer = vim.fn.expand("<abuf>") })
-end, { desc = "LSP: [G]oto [D]efinition " });
+-- vim.keymap.set('n', 'gd', function()
+--     builtin.lsp_definitions()  -- Trigger Telescope LSP definitions
+-- end, { desc = "Telescope: Go to Definition" })
+
+vim.keymap.set('n', 'gI', function()
+    builtin.lsp_implementations()
+end, { desc = "LSP: [G]oto [I]mplementation" });
+

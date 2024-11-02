@@ -4,20 +4,33 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 -- my stuff - Graham
 vim.keymap.set("i", "<S-Tab>", "<C-d>")
 vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+
+vim.keymap.set("n", "<M-j>", "<C-w>5+", { noremap = true, silent = true })
+vim.keymap.set("n", "<M-k>", "<C-w>5-", { noremap = true, silent = true })
+vim.keymap.set("n", "<M-h>", "<C-w>5>", { noremap = true, silent = true })
+vim.keymap.set("n", "<M-l>", "<C-w>5<", { noremap = true, silent = true })
 -- vim.keymap.set("i", "<C-n>n", "")
-vim.api.nvim_set_keymap('t', '<C-n>', '<C-\\><C-n>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader>o", "<cmd>e ~/Documents/obsidian/nvim_vault/Welcome.md<CR>")
-vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>")
-vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianNewFromTemplate<CR>")
+-- obsidian
+vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Documents/obsidian/<CR>")
 vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailies<CR>")
-vim.keymap.set("n", "<leader>oy", "<cmd>ObsidianDailiesYesterday<CR>")
-vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianLink<CR>")
+vim.keymap.set({ "n", "v" }, "<leader>ol", "<cmd>ObsidianLink<CR>")
+vim.keymap.set({ "n", "v" }, "<leader>on", "<cmd>ObsidianLinkNew<CR>")
+vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>")
+vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>")
+vim.keymap.set("n", "<leader>oj", "<cmd>ObsidianJournal<CR>")
+vim.keymap.set("n", "<leader>ot", "<cmd>e ~/Documents/obsidian/playground/playground/Tasks.md<CR>")
+vim.keymap.set("n", "<leader>oi", "<cmd>ObsidianIndex<CR>")
 
--- vim.keymap.set("n", "<leader>oy", function()
---     )
+-- config
+vim.keymap.set("n", "<leader>cc", "<cmd>e ~/.config/nvim/<CR>")
 
+-- formatting
+vim.keymap.set("n", "<leader>bb", "<cmd>!black --config ~/.config/black/pyproject.toml --preview %<CR>")
 
+-- lsp
+vim.keymap.set("n", "<leader>lr", "<cmd>LspRestart<CR>")
 
 -- -- jukit
 -- -- Opens a new output window and executes the command specified in `g:jukit_shell_cmd`
@@ -86,7 +99,7 @@ vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianLink<CR>")
 -- vim.keymap.set("n", "<leader>np", ":call jukit#convert#notebook_convert('jupyter-notebook')<cr>", {noremap=true})
 -- -- Convert from ipynb to py or vice versa. Argument: Optional. If an argument is specified, then its value is used to open the resulting ipynb file after converting script.
 -- vim.keymap.set("n", "<leader>ht", ":call jukit#convert#save_nb_to_file(0,1,'html')<cr>", {noremap=true})
--- -- Convert file to html (including all saved outputs) and open it using the command specified in `g:jukit_html_viewer'. If `g:jukit_html_viewer` is not defined, then will default to `g:jukit_html_viewer='xdg-open'`. Arguments: 1.: Whether to rerun all cells when converting 2.: Whether to open it after converting 3.: filetype to convert to 
+-- -- Convert file to html (including all saved outputs) and open it using the command specified in `g:jukit_html_viewer'. If `g:jukit_html_viewer` is not defined, then will default to `g:jukit_html_viewer='xdg-open'`. Arguments: 1.: Whether to rerun all cells when converting 2.: Whether to open it after converting 3.: filetype to convert to
 -- vim.keymap.set("n", "<leader>rht", ":call jukit#convert#save_nb_to_file(1,1,'html')<cr>", {noremap=true})
 -- -- Same as above, but will (re-)run all cells when converting to html
 -- vim.keymap.set("n", "<leader>pd", ":call jukit#convert#save_nb_to_file(0,1,'pdf')<cr>", {noremap=true})
@@ -126,27 +139,28 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "<leader>vwm", function()
-    require("vim-with-me").StartVimWithMe()
+	require("vim-with-me").StartVimWithMe()
 end)
 vim.keymap.set("n", "<leader>svwm", function()
-    require("vim-with-me").StopVimWithMe()
+	require("vim-with-me").StopVimWithMe()
 end)
 
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux new tmux-sessionizer<CR>")
+vim.keymap.set("n", "<C-f>", "<cmd>silent !~/.config/nvim/lua/scripts/tmux.sh && vim .<CR>")
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+-- vim.keymap.set("v", "<leader>f", vim.lsp.formatexpr) -- why no work
 
 vim.keymap.set("n", "<C-h>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-l>", "<cmd>cprev<CR>zz")
@@ -156,16 +170,10 @@ vim.keymap.set("n", "<leader>l", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
-vim.keymap.set(
-    "n",
-    "<leader>ee",
-    "oif err != nil {<CR>}<Esc>Oreturn err<Esc>"
-)
+vim.keymap.set("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn err<Esc>")
 
-vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/graham/packer.lua<CR>")
-vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
+vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>")
 
 vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
+	vim.cmd("so")
 end)
-
