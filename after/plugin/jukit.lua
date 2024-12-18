@@ -1,51 +1,50 @@
 -- vim.g.jukit_debug = 1
 -- -- GENERIC --
--- vim.g.jukit_shell_cmd = 'ipython3'
+-- vim.g.jukit_shell_cmd = "ipython3"
 -- -- "    - Specifies the command used to start a shell in the output split. Can also be an absolute path. Can also be any other shell command, e.g. `R`, `julia`, etc. (note that output saving is only possible for ipython)
--- vim.g.jukit_terminal = 'kitty'
+-- vim.g.jukit_terminal = "nvimterm"
 -- -- "   - Terminal to use. Can be one of '', 'kitty', 'vimterm', 'nvimterm' or 'tmux'. If '' is given then will try to detect terminal (though this might fail, in which case it simply defaults to 'vimterm' or 'nvimterm' - depending on the output of `has("nvim")`)
 -- vim.g.jukit_auto_output_hist = 0
 -- -- "   - If set to 1, will create an autocmd with event `CursorHold` to show saved ipython output of current cell in output-history split. Might slow down (n)vim significantly, you can use `set updatetime=<number of milliseconds>` to control the time to wait until CursorHold events are triggered, which might improve performance if set to a higher number (e.g. `set updatetime=1000`).
 -- vim.g.jukit_use_tcomment = 0
 -- -- "   - Whether to use tcomment plugin (https://github.com/tomtom/tcomment_vim) to comment out cell markers. If not, then cell markers will simply be prepended with `g:jukit_comment_mark`
--- vim.g.jukit_comment_mark = '#'
+-- vim.g.jukit_comment_mark = "#"
 -- -- "   - See description of `g:jukit_use_tcomment` above
 -- vim.g.jukit_mappings = 1
 -- -- "   - If set to 0, none of the default function mappings (as specified further down) will be applied
 -- vim.g.jukit_mappings_ext_enabled = "*"
 -- -- "   - String or list of strings specifying extensions for which the mappings will be created. For example, `vim.g.jukit_mappings_ext_enabled=['py', 'ipynb']` will enable the mappings only in `.py` and `.ipynb` files. Use `let g:jukit_mappings_ext_enabled='*'` to enable them for all files.
--- vim.g.jukit_notebook_viewer = 'jupyter-notebook'
+-- vim.g.jukit_notebook_viewer = "jupyter-notebook"
 -- -- "   - Command to open .ipynb files, by default jupyter-notebook is used. To use e.g. vs code instead, you could set this to `vim.g.jukit_notebook_viewer = 'code'`
 -- vim.g.jukit_convert_overwrite_default = -1
 -- -- "   - Default setting when converting from .ipynb to .py or vice versa and a file of the same name already exists. Can be of [-1, 0, 1], where -1 means no default (i.e. you'll be prompted to specify what to do), 0 means never overwrite, 1 means always overwrite
 -- vim.g.jukit_convert_open_default = -1
 -- -- "   - Default setting for whether the notebook should be opened after converting from .py to .ipynb. Can be of [-1, 0, 1], where -1 means no default (i.e. you'll be prompted to specify what to do), 0 means never open, 1 means always open
--- vim.g.jukit_file_encodings = 'utf-8'
+-- vim.g.jukit_file_encodings = "utf-8"
 -- -- "   - Default encoding for reading and writing to files in the python helper functions
 -- vim.g.jukit_venv_in_output_hist = 1
 -- -- "   - Whether to also use the provided terminal command for the output history split when starting the splits using the JukitOUtHist command. If 0, the provided terminal command is only used in the output split, not in the output history split.
 --
---
 -- -- Cell highlighting/syntax --
--- vim.g.jukit_highlight_markers = 1;
+-- vim.g.jukit_highlight_markers = 1
 -- -- "    - Whether to highlight cell markers or not. You can specify the colors of cell markers by putting e.g. `highlight jukit_cellmarker_colors guifg=#1d615a guibg=#1d615a ctermbg=22 ctermfg=22` with your desired colors in your (neo)vim config. Make sure to define this highlight *after* loading a colorscheme in your (neo)vim config
--- vim.g.jukit_enable_textcell_bg_hl = 1;
+-- vim.g.jukit_enable_textcell_bg_hl = 1
 -- -- "    - Whether to highlight background of textcells. You can specify the color by putting `highlight jukit_textcell_bg_colors guibg=#131628 ctermbg=0` with your desired colors in your (neo)vim config. Make sure to define this highlight group *after* loading a colorscheme in your (neo)vim config.
 -- vim.g.jukit_enable_textcell_syntax = 1
 -- -- "    - Whether to enable markdown syntax highlighting in textcells
--- vim.g.jukit_text_syntax_file = vim.fn.stdpath('config') .. '/syntax/markdown.vim'
+-- vim.g.jukit_text_syntax_file = vim.fn.stdpath("config") .. "/syntax/markdown.vim"
 -- -- "    - Syntax file to use for textcells. If you want to define your own syntax matches inside of text cells, make sure to include `containedin=textcell`.
--- vim.g.jukit_hl_ext_enabled = '*'
+-- vim.g.jukit_hl_ext_enabled = "*"
 -- -- "    - String or list of strings specifying extensions for which the relevant highlighting autocmds regarding marker-highlighting, textcell-highlighting, etc. will be created. For example, `let g.jukit_hl_extensions=['py', 'R']` will enable the defined highlighting options for `.py` and `.R` files. Use `let g:jukit_hl_extensions='*'` to enable them for all files and `let g:jukit_hl_extensions=''` to disable them completely
 --
 -- -- Kitty --
--- vim.g.jukit_output_bg_color = vim.api.nvim_get_var('jukit_output_bg_color') or ''
+-- vim.g.jukit_output_bg_color = vim.api.nvim_get_var("jukit_output_bg_color") or ""
 -- -- "    - Optional custom background color of output split window (i.e. target window of sent code)
--- vim.g.jukit_output_fg_color = vim.api.nvim_get_var('jukit_output_fg_color') or ''
+-- vim.g.jukit_output_fg_color = vim.api.nvim_get_var("jukit_output_fg_color") or ""
 -- -- Optional custom background color of output-history window
--- vim.g.jukit_outhist_bg_color = vim.api.nvim_get_var('jukit_outhist_bg_color') or '#090b1a'
+-- vim.g.jukit_outhist_bg_color = vim.api.nvim_get_var("jukit_outhist_bg_color") or "#090b1a"
 -- -- Optional custom foreground color of output-history window
--- vim.g.jukit_outhist_fg_color = vim.api.nvim_get_var('jukit_outhist_fg_color') or 'gray'
+-- vim.g.jukit_outhist_fg_color = vim.api.nvim_get_var("jukit_outhist_fg_color") or "gray"
 -- -- "    - Optional custom foreground color of output-history window
 -- vim.g.jukit_output_new_os_window = 0
 -- -- "    - If set to 1, opens output split in new os-window. Can be used to e.g. write code in one kitty-os-window on your primary monitor while sending code to the shell which is in a seperate kitty-os-window on another monitor.
@@ -80,7 +79,7 @@
 -- --
 -- -- " IF KITTY IS USED:
 -- -- Construct the path to the matplotlib style file using the plugin path
--- vim.g.jukit_mpl_style = vim.fn.expand(vim.fn.stdpath('config') .. '/helpers/matplotlib-backend-kitty/backend.mplstyle')
+-- -- vim.g.jukit_mpl_style = vim.fn.expand(vim.fn.stdpath("config") .. "/helpers/matplotlib-backend-kitty/backend.mplstyle")
 --
 -- -- "    - File specifying matplotlib plot options. This is the default value if kitty terminal is used
 -- -- " ELSE:
@@ -98,16 +97,16 @@
 -- -- " You can define a custom split layout as a dictionary, the default is:
 -- -- Define the jukit_layout Lua table
 -- vim.g.jukit_layout = {
---     split = 'horizontal',
---     p1 = 0.6,
---     val = {
---         'file_content',
---         {
---             split = 'vertical',
---             p1 = 0.6,
---             val = {'output', 'output_history'}
---         }
---     }
+-- 	split = "horizontal",
+-- 	p1 = 0.6,
+-- 	val = {
+-- 		"file_content",
+-- 		{
+-- 			split = "vertical",
+-- 			p1 = 0.6,
+-- 			val = { "output", "output_history" },
+-- 		},
+-- 	},
 -- }
 --
 -- -- " this results in the following split layout:
@@ -128,7 +127,7 @@
 -- -- " |                      |               |
 -- -- " |______________________|_______________|
 -- -- "
--- -- " The positions of all 3 split windows must be defined in the dictionary, even if 
+-- -- " The positions of all 3 split windows must be defined in the dictionary, even if
 -- -- " you don't plan on using the output_history split.
 -- -- "
 -- -- " dictionary keys:
@@ -146,26 +145,26 @@
 -- vim.g.jukit_hist_use_ueberzug = 0
 -- -- "   - Set to 1 to use Überzug to display saved outputs instead of an ipython split window
 -- vim.g.jukit_ueberzug_use_cached = 1
--- -- "   - Whether to cache created images of saved outputs. If set to 0, will convert saved outputs to png from scratch each time. Note that this will make displaying saved outputs significantly slower. 
--- vim.g.jukit_ueberzug_pos = {0.25, 0.25, 0.4, 0.6}
+-- -- "   - Whether to cache created images of saved outputs. If set to 0, will convert saved outputs to png from scratch each time. Note that this will make displaying saved outputs significantly slower.
+-- vim.g.jukit_ueberzug_pos = { 0.25, 0.25, 0.4, 0.6 }
 -- -- "   - position and dimension of Überzug window WITH output split present - [x, y, width, height]. Use `:call jukit#ueberzug#set_default_pos()` to modify/visualize.
--- vim.g.jukit_ueberzug_pos_noout = {0.25, 0.25, 0.4, 0.6}
+-- vim.g.jukit_ueberzug_pos_noout = { 0.25, 0.25, 0.4, 0.6 }
 -- -- "   - position and dimension of Überzug window WITHOUT output split present - [x, y, width, height]. Use `:call jukit#ueberzug#set_default_pos()` to modify/visualize.
 -- vim.g.jukit_kill_ueberzug_on_focus_lost = 1
 -- -- "   - whether to kill ueberzug when the focus to neovim is lost (detecting focus might only work on neovim). if set to 0, the ueberzug image keeps being displayed even when neovim loses focus (e.g. when switching tabs in terminal).
 --
 -- -- Retrieve the value of jukit_ueberzug_border_color with a fallback value of 'blue'
--- vim.g.jukit_ueberzug_border_color = vim.api.nvim_get_var('jukit_ueberzug_border_color') or 'blue'
+-- vim.g.jukit_ueberzug_border_color = vim.api.nvim_get_var("jukit_ueberzug_border_color") or "blue"
 -- -- "   - border color of Überzug images
--- vim.g.jukit_ueberzug_theme = 'dark'
+-- vim.g.jukit_ueberzug_theme = "dark"
 -- -- "   - choose dark or light theme for markdown cells
 -- vim.g.jukit_ueberzug_term_hw_ratio = -1
 -- -- "   - this is relevant in case the shown ueberzug image is cut off horizontally. In that case, the determined width/height ratio of your terminal cells is determined incorrectly. A value of -1 means the ratio should be determined automatically. A ratio of 2.2 is used by default if the ratio can't be determined automatically. If you get a cut off image, try setting this parameter and vary the values around 2.0 (e.g. `vim.g.jukit_ueberzug_term_hw_ratio = 2.3` or `let g:jukit_ueberzug_term_hw_ratio = 1.9`) until the image is displayed correctly to determine your needed ratio.
--- vim.g.jukit_ueberzug_python_cmd = 'python3'
+-- vim.g.jukit_ueberzug_python_cmd = "python3"
 -- -- "   - path to python3 executable for which the überzug requirements (beautifulsoup4, pillow, ueberzug) are installed. By default it just uses the python3 command found in your environment. If you started an output split in a virtual environment, make sure that you either have all the requirements in the virtual requirements or set the absolute path to the python3 command.
--- vim.g.jukit_ueberzug_jupyter_cmd = 'jupyter'
+-- vim.g.jukit_ueberzug_jupyter_cmd = "jupyter"
 -- -- "   - path to jupyter executable. By default it just uses the jupyter command found in your environment. If you started an output split in a virtual environment, make sure that you either have jupyter installed in that environment or set the absolute path to the python3 command.
--- vim.g.jukit_ueberzug_cutycapt_cmd = 'cutycapt'
+-- vim.g.jukit_ueberzug_cutycapt_cmd = "cutycapt"
 -- -- "   - path to cutycapt executable
--- vim.g.jukit_ueberzug_imagemagick_cmd = 'convert'
+-- vim.g.jukit_ueberzug_imagemagick_cmd = "convert"
 -- -- "   - path to imagemagick (`convert` command) executable

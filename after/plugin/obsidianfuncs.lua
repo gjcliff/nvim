@@ -13,14 +13,16 @@ local function create_note_with_template(opts)
 
 	-- Create a link in the current file
 	vim.cmd("normal! O")
-	local link = string.format("[[@{%s} %s]]", os.date("%Y-%m-%d", os.time()), title)
-	vim.api.nvim_put({ link }, "c", true, true) -- Insert the link at cursor position
+	local link = string.format("@{%s} %s", os.date("%Y-%m-%d", os.time()), title)
+	vim.api.nvim_put({ link }, "c", true, true) -- insert the link at cursor position, that's what the "c" is
 
-	-- Create the note with the specific template
-	local command =
-		string.format("ObsidianNewFromTemplate %s", string.format("@{%s} %s.md", os.date("%Y-%m-%d"), title, title))
-	vim.cmd(command)
-	vim.api.nvim_put({ title }, "l", true, true) -- Insert the title at the beginning of the note
+	vim.cmd("normal! V")
+	vim.cmd("ObsidianLinkNew")
+
+	vim.cmd("normal! l")
+	vim.defer_fn(function()
+		vim.cmd("normal! d0")
+	end, 1) -- without this 1ms of delay, this won't work for some reason
 end
 -- Create a Neovim command that runs the function
 vim.api.nvim_create_user_command("ObsidianTask", function(opts)
@@ -36,6 +38,8 @@ local function create_journal_entry()
 	local command = string.format("ObsidianNewFromTemplate %s", string.format("%s.md", os.date("%Y-%m-%d")))
 	vim.cmd(command)
 	vim.api.nvim_put({ os.date("%Y-%m-%d") }, "l", true, true) -- Insert the date at the beginning of the note
+	vim.cmd("write")
+	vim.cmd("normal! <C-o>")
 end
 vim.api.nvim_create_user_command("ObsidianJournal", function()
 	create_journal_entry()

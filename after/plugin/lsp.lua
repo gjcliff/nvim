@@ -39,6 +39,8 @@ end)
 
 -- to learn how to use mason.nvim with lsp-zero
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
+
+local lspconfig = require("lspconfig")
 require("mason").setup()
 require("mason-lspconfig").setup({
 	ensure_installed = { "cmake", "clangd" },
@@ -50,6 +52,43 @@ require("mason-lspconfig").setup({
 		-- 	})
 		-- end,
 		function(server_name)
+			if server_name == "pylsp" then
+				lspconfig.pylsp.setup({
+					-- on_attach = custom_attach,
+					settings = {
+						pylsp = {
+							plugins = {
+								-- formatter options
+								black = {
+									enabled = true,
+									line_length = 88,
+									preview = true,
+								},
+								autopep8 = { enabled = false },
+								yapf = { enabled = false },
+								-- linter options
+								pylint = { enabled = true, executable = "pylint" },
+								pyflakes = { enabled = false },
+								pycodestyle = { enabled = false },
+								-- type checker
+								pylsp_mypy = { enabled = true },
+								-- auto-completion options
+								jedi_completion = { fuzzy = true },
+								-- import sorting
+								pyls_isort = { enabled = true },
+							},
+						},
+					},
+					flags = {
+						debounce_text_changes = 200,
+					},
+					-- capabilities = capabilities,
+					-- before_init = function(_, config)
+					-- 	config.settings.python.pythonPath = "/usr/bin/python3"
+					-- 	-- vim.env.PYTHONPATH = vim.env.PYTHONPATH .. ":" .. "/usr/lib/python3.10/site-packages"
+					-- end,
+				})
+			end
 			require("lspconfig")[server_name].setup({})
 		end,
 	},
