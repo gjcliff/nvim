@@ -10,7 +10,9 @@ vim.keymap.set("n", "<M-k>", "<C-w>5-", { noremap = true, silent = true })
 vim.keymap.set("n", "<M-h>", "<C-w>5>", { noremap = true, silent = true })
 vim.keymap.set("n", "<M-l>", "<C-w>5<", { noremap = true, silent = true })
 -- vim.keymap.set("i", "<C-n>n", "")
-vim.api.nvim_set_keymap("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true })
+vim.keymap.set("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true })
+
+vim.keymap.set("n", "<C-l>", "<esc>A", { noremap = true, silent = true })
 
 -- obsidian
 vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Documents/obsidian/playground/Index.md<CR>")
@@ -22,6 +24,7 @@ vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>")
 vim.keymap.set("n", "<leader>oj", "<cmd>e ~/Documents/obsidian/playground/playground/Job Search.md<CR>")
 vim.keymap.set("n", "<leader>ot", "<cmd>e ~/Documents/obsidian/playground/playground/Tasks.md<CR>")
 vim.keymap.set("n", "<leader>oi", "<cmd>ObsidianIndex<CR>")
+vim.keymap.set("n", "<leader>ok", "<cmd>e ~/Documents/obsidian/playground/playground/Knowledge Base.md<CR>")
 
 -- config
 vim.keymap.set("n", "<leader>cc", "<cmd>e ~/.config/nvim/<CR>")
@@ -141,10 +144,10 @@ vim.keymap.set("n", "<C-f>", "<cmd>silent !~/.config/nvim/lua/scripts/tmux.sh &&
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 -- vim.keymap.set("v", "<leader>f", vim.lsp.formatexpr) -- why no work
 
-vim.keymap.set("n", "<C-h>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-l>", "<cmd>cprev<CR>zz")
-vim.keymap.set("n", "<leader>h", "<cmd>lnext<CR>zz")
-vim.keymap.set("n", "<leader>l", "<cmd>lprev<CR>zz")
+-- vim.keymap.set("n", "<C-h>", "<cmd>cnext<CR>zz")
+-- vim.keymap.set("n", "<C-l>", "<cmd>cprev<CR>zz")
+-- vim.keymap.set("n", "<leader>h", "<cmd>lnext<CR>zz")
+-- vim.keymap.set("n", "<leader>l", "<cmd>lprev<CR>zz")
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
