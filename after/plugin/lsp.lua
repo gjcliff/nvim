@@ -88,8 +88,23 @@ require("mason-lspconfig").setup({
 					-- 	-- vim.env.PYTHONPATH = vim.env.PYTHONPATH .. ":" .. "/usr/lib/python3.10/site-packages"
 					-- end,
 				})
+			-- all this other stuff is for developing C code for the pico. I had
+			-- all of these crazy errors with "'stdio.h' file not found". I just
+			-- had to literally hand the location of the headers to clangd so
+			-- the lsp would work. Everything would still compile fine
+			elseif server_name == "clangd" then
+				lspconfig.clangd.setup({
+					cmd = {
+						"clangd",
+						"--query-driver=/opt/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-g*",
+						-- "-I/opt/gcc-arm-none-eabi-10-2020-q4-major/lib/gcc/arm-none-eabi/10.2.1/include",
+						-- "-I/opt/gcc-arm-none-eabi-10-2020-q4-major/arm-none-eabi/include",
+						"--log=verbose",
+					},
+				})
+			else
+				require("lspconfig")[server_name].setup({})
 			end
-			require("lspconfig")[server_name].setup({})
 		end,
 	},
 })

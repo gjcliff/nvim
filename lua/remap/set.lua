@@ -4,16 +4,16 @@ package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/shar
 
 if vim.fn.has("wsl") == 1 then
 	vim.g.clipboard = {
-		name = "WslClipboard",
+		name = "xclip",
 		copy = {
-			["+"] = "clip.exe",
-			["*"] = "clip.exe",
+			["+"] = "xclip -selection clipboard",
+			["*"] = "xclip -selection clipboard",
 		},
 		paste = {
-			["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-			["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+			["+"] = "xclip -selection clipboard -o",
+			["*"] = "xclip -selection clipboard -o",
 		},
-		cache_enabled = 0,
+		cache_enabled = 1,
 	}
 end
 

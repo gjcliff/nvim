@@ -13,6 +13,7 @@ vim.keymap.set("n", "<M-l>", "<C-w>5<", { noremap = true, silent = true })
 vim.keymap.set("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true })
 
 vim.keymap.set("n", "<C-l>", "<esc>A", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-h>", "_80lbi<enter><esc>")
 
 -- obsidian
 vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Documents/obsidian/playground/Index.md<CR>")
