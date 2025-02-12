@@ -84,7 +84,7 @@ require("obsidian").setup({
 		--     end
 		-- }
 	},
-	notes_subdir = "playground",
+	notes_subdir = "modalic",
 	new_notes_location = "notes_subdir",
 	log_level = vim.log.levels.INFO,
 	open_notes_in = "vsplit",

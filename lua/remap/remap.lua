@@ -12,9 +12,6 @@ vim.keymap.set("n", "<M-l>", "<C-w>5<", { noremap = true, silent = true })
 -- vim.keymap.set("i", "<C-n>n", "")
 vim.keymap.set("t", "<C-n>", "<C-\\><C-n>", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<C-l>", "<esc>A", { noremap = true, silent = true })
-vim.keymap.set("n", "<C-h>", "_80lbi<enter><esc>")
-
 -- obsidian
 vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Documents/obsidian/modalic/Index.md<CR>")
 vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailies<CR>")
@@ -145,10 +142,10 @@ vim.keymap.set("n", "<C-f>", "<cmd>silent !~/.config/nvim/lua/scripts/tmux.sh &&
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 -- vim.keymap.set("v", "<leader>f", vim.lsp.formatexpr) -- why no work
 
--- vim.keymap.set("n", "<C-h>", "<cmd>cnext<CR>zz")
--- vim.keymap.set("n", "<C-l>", "<cmd>cprev<CR>zz")
--- vim.keymap.set("n", "<leader>h", "<cmd>lnext<CR>zz")
--- vim.keymap.set("n", "<leader>l", "<cmd>lprev<CR>zz")
+vim.keymap.set("n", "<C-h>", "<cmd>cnext<CR>zz")
+vim.keymap.set("n", "<C-l>", "<cmd>cprev<CR>zz")
+vim.keymap.set("n", "<leader>h", "<cmd>lnext<CR>zz")
+vim.keymap.set("n", "<leader>l", "<cmd>lprev<CR>zz")
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
