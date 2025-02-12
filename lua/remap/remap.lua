@@ -16,16 +16,16 @@ vim.keymap.set("n", "<C-l>", "<esc>A", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-h>", "_80lbi<enter><esc>")
 
 -- obsidian
-vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Documents/obsidian/playground/Index.md<CR>")
+vim.keymap.set("n", "<leader>oo", "<cmd>e ~/Documents/obsidian/modalic/Index.md<CR>")
 vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailies<CR>")
 vim.keymap.set({ "n", "v" }, "<leader>ol", "<cmd>ObsidianLink<CR>")
 vim.keymap.set({ "n", "v" }, "<leader>on", "<cmd>ObsidianLinkNew<CR>")
 vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>")
 vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>")
-vim.keymap.set("n", "<leader>oj", "<cmd>e ~/Documents/obsidian/playground/playground/Job Search.md<CR>")
-vim.keymap.set("n", "<leader>ot", "<cmd>e ~/Documents/obsidian/playground/playground/Tasks.md<CR>")
+vim.keymap.set("n", "<leader>oj", "<cmd>e ~/Documents/obsidian/modalic/modalic/Job Search.md<CR>")
+vim.keymap.set("n", "<leader>ot", "<cmd>e ~/Documents/obsidian/modalic/modalic/Tasks.md<CR>")
 vim.keymap.set("n", "<leader>oi", "<cmd>ObsidianIndex<CR>")
-vim.keymap.set("n", "<leader>ok", "<cmd>e ~/Documents/obsidian/playground/playground/Knowledge Base.md<CR>")
+vim.keymap.set("n", "<leader>ok", "<cmd>e ~/Documents/obsidian/modalic/modalic/Knowledge Base.md<CR>")
 
 -- config
 vim.keymap.set("n", "<leader>cc", "<cmd>e ~/.config/nvim/<CR>")

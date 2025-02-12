@@ -40,17 +40,16 @@ end)
 -- to learn how to use mason.nvim with lsp-zero
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
 
+if vim.env.VIRTUAL_ENV then
+	local venv_site_packages = vim.env.VIRTUAL_ENV .. "/lib/python3.10/site-packages"
+	vim.env.PYTHONPATH = vim.env.PYTHONPATH .. ":" .. venv_site_packages
+end
+
 local lspconfig = require("lspconfig")
 require("mason").setup()
 require("mason-lspconfig").setup({
-	ensure_installed = { "cmake", "clangd" },
+	ensure_installed = { "cmake", "clangd", "lua_ls", "pylsp", "dockerls" },
 	handlers = {
-		-- ["jedi_language_server"] = function()
-		-- 	require("lspconfig").jedi_language_server.setup({
-		-- 		-- capabilities = lsp_zero.capabilities,
-		-- 		filetypes = { "python" },
-		-- 	})
-		-- end,
 		function(server_name)
 			if server_name == "pylsp" then
 				lspconfig.pylsp.setup({
@@ -85,7 +84,7 @@ require("mason-lspconfig").setup({
 					-- capabilities = capabilities,
 					-- before_init = function(_, config)
 					-- 	config.settings.python.pythonPath = "/usr/bin/python3"
-					-- 	-- vim.env.PYTHONPATH = vim.env.PYTHONPATH .. ":" .. "/usr/lib/python3.10/site-packages"
+					-- 	vim.env.PYTHONPATH = vim.env.PYTHONPATH .. ":" .. "/usr/lib/python3.10/site-packages"
 					-- end,
 				})
 			-- all this other stuff is for developing C code for the pico. I had

@@ -4,6 +4,10 @@ require("obsidian").setup({
 	},
 	workspaces = {
 		{
+			name = "modalic",
+			path = "~/Documents/obsidian/modalic/",
+		},
+		{
 			name = "playground",
 			path = "~/Documents/obsidian/playground/",
 		},
