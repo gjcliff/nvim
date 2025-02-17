@@ -54,25 +54,44 @@ require("mason-lspconfig").setup({
 			if server_name == "pylsp" then
 				lspconfig.pylsp.setup({
 					-- on_attach = custom_attach,
+					-- settings = {
+					-- 	pylsp = {
+					-- 		plugins = {
+					-- 			pycodestyle = {
+					-- 				ignore = { "W391" },
+					-- 				maxLineLength = 100,
+					-- 			},
+					-- 		},
+					-- 	},
+					-- },
 					settings = {
 						pylsp = {
+							configurationSources = { "flake8" },
 							plugins = {
 								-- formatter options
 								black = {
 									enabled = true,
-									line_length = 88,
+									line_length = 79,
 									preview = true,
 								},
 								autopep8 = { enabled = false },
 								yapf = { enabled = false },
 								-- linter options
-								pylint = { enabled = true, executable = "pylint" },
+								pylint = { enabled = false, executable = "pylint" },
 								pyflakes = { enabled = false },
+								mccabe = { enabled = false },
 								pycodestyle = { enabled = false },
+								flake8 = {
+									enabled = true,
+									config = "/home/graham/.config/flake8/setup.cfg",
+								},
 								-- type checker
-								pylsp_mypy = { enabled = true },
+								pylsp_mypy = { enabled = false },
 								-- auto-completion options
-								jedi_completion = { fuzzy = true },
+								jedi_completion = {
+									enabled = true,
+									fuzzy = true,
+								},
 								-- import sorting
 								pyls_isort = { enabled = true },
 							},
@@ -87,10 +106,10 @@ require("mason-lspconfig").setup({
 					-- 	vim.env.PYTHONPATH = vim.env.PYTHONPATH .. ":" .. "/usr/lib/python3.10/site-packages"
 					-- end,
 				})
-			-- all this other stuff is for developing C code for the pico. I had
-			-- all of these crazy errors with "'stdio.h' file not found". I just
-			-- had to literally hand the location of the headers to clangd so
-			-- the lsp would work. Everything would still compile fine
+				-- all this other stuff is for developing C code for the pico. I had
+				-- all of these crazy errors with "'stdio.h' file not found". I just
+				-- had to literally hand the location of the headers to clangd so
+				-- the lsp would work. Everything would still compile fine
 			elseif server_name == "clangd" then
 				lspconfig.clangd.setup({
 					cmd = {
@@ -99,6 +118,27 @@ require("mason-lspconfig").setup({
 						-- "-I/opt/gcc-arm-none-eabi-10-2020-q4-major/lib/gcc/arm-none-eabi/10.2.1/include",
 						-- "-I/opt/gcc-arm-none-eabi-10-2020-q4-major/arm-none-eabi/include",
 						"--log=verbose",
+					},
+				})
+			elseif server_name == "rust_analyzer" then
+				lspconfig.rust_analyzer.setup({
+					on_attach = function(client, bufnr)
+						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+					end,
+					settings = {
+						["rust-analyzer"] = {
+							diagnostics = {
+								enable = true,
+							},
+						},
+					},
+				})
+			elseif server_name == "cmake" then
+				lspconfig.cmake.setup({
+					settings = {
+						CMake = {
+							filetypes = { "cmake", "CMakeLists.txt" },
+						},
 					},
 				})
 			else
@@ -113,12 +153,13 @@ local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
 cmp.setup({
 	sources = {
+		{ name = "nvim_lsp" }, -- Ensure LSP has highest priority
 		{ name = "path" },
-		{ name = "nvim_lsp" },
 		{ name = "nvim_lua" },
-		{ name = "luasnip", keyword_length = 2 },
-		{ name = "buffer", keyword_length = 3 },
+		{ name = "luasnip" },
+		{ name = "buffer" },
 	},
+
 	formatting = lsp_zero.cmp_format(),
 	mapping = cmp.mapping.preset.insert({
 		["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
