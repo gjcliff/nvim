@@ -1,3 +1,7 @@
+-- lsp_zero.setup_servers({'jedi_language_server, clangd'}) -- throwing errors when sourcing (:so)
+
+-- to learn how to use mason.nvim with lsp-zero
+-- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
 local lsp_zero = require("lsp-zero")
 
 lsp_zero.on_attach(function(client, bufnr)
@@ -34,11 +38,6 @@ lsp_zero.on_attach(function(client, bufnr)
 		vim.lsp.buf.signature_help()
 	end, opts)
 end)
-
--- lsp_zero.setup_servers({'jedi_language_server, clangd'}) -- throwing errors when sourcing (:so)
-
--- to learn how to use mason.nvim with lsp-zero
--- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
 
 if vim.env.VIRTUAL_ENV then
 	local venv_site_packages = vim.env.VIRTUAL_ENV .. "/lib/python3.10/site-packages"
@@ -146,25 +145,4 @@ require("mason-lspconfig").setup({
 			end
 		end,
 	},
-})
-
-local cmp = require("cmp")
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-
-cmp.setup({
-	sources = {
-		{ name = "nvim_lsp" }, -- Ensure LSP has highest priority
-		{ name = "path" },
-		{ name = "nvim_lua" },
-		{ name = "luasnip" },
-		{ name = "buffer" },
-	},
-
-	formatting = lsp_zero.cmp_format(),
-	mapping = cmp.mapping.preset.insert({
-		["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-		["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-		["<C-y>"] = cmp.mapping.confirm({ select = true }),
-		["<C-Space>"] = cmp.mapping.complete(),
-	}),
 })
