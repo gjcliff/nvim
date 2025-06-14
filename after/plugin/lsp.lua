@@ -32,9 +32,9 @@ lsp_zero.on_attach(function(client, bufnr)
 	vim.keymap.set("n", "<leader>vrn", function()
 		vim.lsp.buf.rename()
 	end, opts)
-	vim.keymap.set("i", "<C-h>", function()
-		vim.lsp.buf.signature_help()
-	end, opts)
+	-- vim.keymap.set("i", "<C-h>", function()
+	-- 	vim.lsp.buf.signature_help()
+	-- end, opts)
 end)
 
 if vim.env.VIRTUAL_ENV then
@@ -49,18 +49,8 @@ require("mason-lspconfig").setup({
 	handlers = {
 		function(server_name)
 			if server_name == "pylsp" then
+				print("[lsp-zero] Configuring pylsp!")
 				lspconfig.pylsp.setup({
-					-- on_attach = custom_attach,
-					-- settings = {
-					-- 	pylsp = {
-					-- 		plugins = {
-					-- 			pycodestyle = {
-					-- 				ignore = { "W391" },
-					-- 				maxLineLength = 100,
-					-- 			},
-					-- 		},
-					-- 	},
-					-- },
 					settings = {
 						pylsp = {
 							configurationSources = { "flake8" },
@@ -97,16 +87,7 @@ require("mason-lspconfig").setup({
 					flags = {
 						debounce_text_changes = 200,
 					},
-					-- capabilities = capabilities,
-					-- before_init = function(_, config)
-					-- 	config.settings.python.pythonPath = "/usr/bin/python3"
-					-- 	vim.env.PYTHONPATH = vim.env.PYTHONPATH .. ":" .. "/usr/lib/python3.10/site-packages"
-					-- end,
 				})
-				-- all this other stuff is for developing C code for the pico. I had
-				-- all of these crazy errors with "'stdio.h' file not found". I just
-				-- had to literally hand the location of the headers to clangd so
-				-- the lsp would work. Everything would still compile fine
 			elseif server_name == "clangd" then
 				lspconfig.clangd.setup({
 					cmd = {

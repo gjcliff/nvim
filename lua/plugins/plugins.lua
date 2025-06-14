@@ -131,11 +131,17 @@ return {
 		requires = { { "nvim-lua/plenary.nvim" } },
 	},
 
+	-- {
+	-- 	"rose-pine/neovim",
+	-- 	as = "rose-pine",
+	-- 	config = function()
+	-- 		vim.cmd("colorscheme rose-pine")
+	-- 	end,
+	-- },
 	{
-		"rose-pine/neovim",
-		as = "rose-pine",
+		"folke/tokyonight.nvim",
 		config = function()
-			vim.cmd("colorscheme rose-pine")
+			vim.cmd("colorscheme tokyonight-storm")
 		end,
 	},
 	{
@@ -166,9 +172,19 @@ return {
 
 	{ "neovim/nvim-lspconfig" },
 
-	{ "williamboman/mason.nvim" },
+	{
+		"williamboman/mason.nvim",
+		opts = {},
+	},
 
-	{ "williamboman/mason-lspconfig.nvim" },
+	{
+		"mason-org/mason-lspconfig.nvim",
+		opts = {},
+		dependencies = {
+			{ "mason-org/mason.nvim", opts = {} },
+			"neovim/nvim-lspconfig",
+		},
+	},
 
 	-- Autocompletion
 	{ "hrsh7th/nvim-cmp" },
@@ -266,5 +282,26 @@ return {
 			"nvim-telescope/telescope.nvim",
 			"nvim-treesitter/nvim-treesitter",
 		},
+	},
+	{
+		"christoomey/vim-tmux-navigator",
+		cmd = {
+			"TmuxNavigateLeft",
+			"TmuxNavigateDown",
+			"TmuxNavigateUp",
+			"TmuxNavigateRight",
+			"TmuxNavigatePrevious",
+			"TmuxNavigatorProcessList",
+		},
+		keys = {
+			{ "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+			{ "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+			{ "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+			{ "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+			{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+		},
+	},
+	{
+		"RyanMillerC/better-vim-tmux-resizer",
 	},
 }

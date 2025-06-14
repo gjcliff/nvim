@@ -61,11 +61,11 @@ require("oil").setup({
 		["g?"] = "actions.show_help",
 		["<CR>"] = "actions.select",
 		["<C-s>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
-		["<C-h>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
+		["<C-a>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
 		["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
 		["<C-p>"] = "actions.preview",
 		["<C-c>"] = "actions.close",
-		["<C-l>"] = "actions.refresh",
+		["<C-r>"] = "actions.refresh",
 		-- ["-"] = "actions.parent",
 		["_"] = "actions.open_cwd",
 		["`"] = "actions.cd",
@@ -80,7 +80,7 @@ require("oil").setup({
 	vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "Open parent directory" }),
 
 	-- Set to false to disable all of the above keymaps
-	use_default_keymaps = true,
+	use_default_keymaps = false,
 	view_options = {
 		-- Show files and directories that start with "."
 		show_hidden = true,
@@ -130,7 +130,7 @@ require("oil").setup({
 			winblend = 0,
 		},
 		-- preview_split: Split direction: "auto", "left", "right", "above", "below".
-		preview_split = "auto",
+		preview_split = "left",
 		-- This is the config that will be passed to nvim_open_win.
 		-- Change values here to customize the layout
 		override = function(conf)
