@@ -131,13 +131,10 @@ return {
 		requires = { { "nvim-lua/plenary.nvim" } },
 	},
 
-	-- {
-	-- 	"rose-pine/neovim",
-	-- 	as = "rose-pine",
-	-- 	config = function()
-	-- 		vim.cmd("colorscheme rose-pine")
-	-- 	end,
-	-- },
+	{
+		"rose-pine/neovim",
+		as = "rose-pine",
+	},
 	{
 		"folke/tokyonight.nvim",
 		config = function()
@@ -161,14 +158,6 @@ return {
 
 	{ "mbbill/undotree" },
 	{ "tpope/vim-fugitive" },
-
-	{
-		"VonHeikemen/lsp-zero.nvim",
-		branch = "v3.x",
-		-- requires = {
-		-- LSP Support
-		-- }
-	},
 
 	{ "neovim/nvim-lspconfig" },
 
@@ -199,15 +188,15 @@ return {
 
 	{ "hrsh7th/cmp-nvim-lua" },
 
-	{
-		"L3MON4D3/LuaSnip",
-		version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-		-- install jsregexp (optional!).
-		build = "make install_jsregexp",
-		dependencies = { "rafamadriz/friendly-snippets" },
-	},
+	-- {
+	-- 	"L3MON4D3/LuaSnip",
+	-- 	version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+	-- 	-- install jsregexp (optional!).
+	-- 	build = "make install_jsregexp",
+	-- 	dependencies = { "rafamadriz/friendly-snippets" },
+	-- },
 
-	{ "rafamadriz/friendly-snippets" },
+	-- { "rafamadriz/friendly-snippets" },
 
 	{
 		"windwp/nvim-autopairs",
@@ -215,8 +204,6 @@ return {
 		event = "InsertEnter",
 		config = true,
 	},
-
-	-- { "github/copilot.vim" },
 
 	{
 		"numToStr/Comment.nvim",
@@ -250,13 +237,6 @@ return {
 	-- 		require("duckytype").setup({})
 	-- 	end,
 	-- },
-
-	{
-		"nvzone/typr",
-		dependencies = "nvzone/volt",
-		opts = {},
-		cmd = { "Typr", "TyprStats" },
-	},
 
 	{
 		"nvim-lualine/lualine.nvim",

@@ -1,127 +1,103 @@
--- to learn how to use mason.nvim with lsp-zero
--- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
-local lsp_zero = require("lsp-zero")
-
-lsp_zero.on_attach(function(client, bufnr)
-	local opts = { buffer = bufnr, remap = false }
-
-	vim.keymap.set("n", "gd", function()
-		vim.lsp.buf.definition()
-	end, opts)
-	vim.keymap.set("n", "K", function()
-		vim.lsp.buf.hover()
-	end, opts)
-	vim.keymap.set("n", "<leader>vws", function()
-		vim.lsp.buf.workspace_symbol()
-	end, opts)
-	vim.keymap.set("n", "<leader>vd", function()
-		vim.diagnostic.open_float()
-	end, opts)
-	vim.keymap.set("n", "[d", function()
-		vim.diagnostic.goto_next()
-	end, opts)
-	vim.keymap.set("n", "]d", function()
-		vim.diagnostic.goto_prev()
-	end, opts)
-	vim.keymap.set("n", "<leader>vca", function()
-		vim.lsp.buf.code_action()
-	end, opts)
-	vim.keymap.set("n", "<leader>vrr", function()
-		vim.lsp.buf.references()
-	end, opts)
-	vim.keymap.set("n", "<leader>vrn", function()
-		vim.lsp.buf.rename()
-	end, opts)
-	-- vim.keymap.set("i", "<C-h>", function()
-	-- 	vim.lsp.buf.signature_help()
-	-- end, opts)
-end)
-
-if vim.env.VIRTUAL_ENV then
-	local venv_site_packages = vim.env.VIRTUAL_ENV .. "/lib/python3.10/site-packages"
-	vim.env.PYTHONPATH = vim.env.PYTHONPATH .. ":" .. venv_site_packages
-end
+-- if vim.env.VIRTUAL_ENV then
+-- 	local venv_site_packages = vim.env.VIRTUAL_ENV .. "/lib/python3.10/site-packages"
+-- 	vim.env.PYTHONPATH = vim.env.PYTHONPATH .. ":" .. venv_site_packages
+-- end
 
 local lspconfig = require("lspconfig")
 require("mason").setup()
 require("mason-lspconfig").setup({
 	ensure_installed = { "cmake", "clangd", "lua_ls", "pylsp", "dockerls" },
+	dependenies = {
+		{
+			"folke/lazydev.nvim",
+			ft = "lua", -- only load on lua files
+			opts = {
+				library = {
+					-- See the configuration section for more details
+					-- Load luvit types when the `vim.uv` word is found
+					{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+				},
+			},
+		},
+	},
 	handlers = {
-		function(server_name)
-			if server_name == "pylsp" then
-				print("[lsp-zero] Configuring pylsp!")
-				lspconfig.pylsp.setup({
-					settings = {
-						pylsp = {
-							configurationSources = { "flake8" },
-							plugins = {
-								-- formatter options
-								black = {
-									enabled = true,
-									line_length = 79,
-									preview = true,
-								},
-								autopep8 = { enabled = false },
-								yapf = { enabled = false },
-								-- linter options
-								pylint = { enabled = false, executable = "pylint" },
-								pyflakes = { enabled = false },
-								mccabe = { enabled = false },
-								pycodestyle = { enabled = false },
-								flake8 = {
-									enabled = true,
-									config = "/home/graham/.config/flake8/setup.cfg",
-								},
-								-- type checker
-								pylsp_mypy = { enabled = false },
-								-- auto-completion options
-								jedi_completion = {
-									enabled = true,
-									fuzzy = true,
-								},
-								-- import sorting
-								pyls_isort = { enabled = true },
+		function(server)
+			lspconfig[server].setup({})
+		end,
+		["pylsp"] = function()
+			print("[lsp-zero] Configuring pylsp!")
+			lspconfig.pylsp.setup({
+				settings = {
+					pylsp = {
+						configurationSources = { "flake8" },
+						plugins = {
+							-- formatter options
+							black = {
+								enabled = true,
+								line_length = 79,
+								preview = true,
 							},
-						},
-					},
-					flags = {
-						debounce_text_changes = 200,
-					},
-				})
-			elseif server_name == "clangd" then
-				lspconfig.clangd.setup({
-					cmd = {
-						"clangd",
-						"--query-driver=/opt/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-g*",
-						-- "-I/opt/gcc-arm-none-eabi-10-2020-q4-major/lib/gcc/arm-none-eabi/10.2.1/include",
-						-- "-I/opt/gcc-arm-none-eabi-10-2020-q4-major/arm-none-eabi/include",
-						"--log=verbose",
-					},
-				})
-			elseif server_name == "rust_analyzer" then
-				lspconfig.rust_analyzer.setup({
-					on_attach = function(client, bufnr)
-						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-					end,
-					settings = {
-						["rust-analyzer"] = {
-							diagnostics = {
-								enable = true,
+							autopep8 = { enabled = false },
+							yapf = { enabled = false },
+							-- linter options
+							pylint = { enabled = false, executable = "pylint" },
+							pyflakes = { enabled = false },
+							mccabe = { enabled = false },
+							pycodestyle = { enabled = false },
+							flake8 = {
+								enabled = true,
+								config = "/home/graham/.config/flake8/setup.cfg",
 							},
+							-- type checker
+							pylsp_mypy = { enabled = false },
+							-- auto-completion options
+							jedi_completion = {
+								enabled = true,
+								fuzzy = true,
+							},
+							-- import sorting
+							pyls_isort = { enabled = true },
 						},
 					},
-				})
-			elseif server_name == "cmake" then
-				lspconfig.cmake.setup({
-					settings = {
-						CMake = {
-							filetypes = { "cmake", "CMakeLists.txt" },
+				},
+				flags = {
+					debounce_text_changes = 200,
+				},
+			})
+		end,
+		["clangd"] = function()
+			lspconfig.clangd.setup({
+				cmd = {
+					"clangd",
+					"--query-driver=/opt/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-g*",
+					-- "-I/opt/gcc-arm-none-eabi-10-2020-q4-major/lib/gcc/arm-none-eabi/10.2.1/include",
+					-- "-I/opt/gcc-arm-none-eabi-10-2020-q4-major/arm-none-eabi/include",
+					"--log=verbose",
+				},
+			})
+		end,
+		["rust_analyzer"] = function()
+			lspconfig.rust_analyzer.setup({
+				on_attach = function(client, bufnr)
+					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+				end,
+				settings = {
+					["rust-analyzer"] = {
+						diagnostics = {
+							enable = true,
 						},
 					},
-				})
-			else
-				require("lspconfig")[server_name].setup({})
-			end
+				},
+			})
+		end,
+		["cmake"] = function()
+			lspconfig.cmake.setup({
+				settings = {
+					CMake = {
+						filetypes = { "cmake", "CMakeLists.txt" },
+					},
+				},
+			})
 		end,
 	},
 })
