@@ -24,11 +24,11 @@ return {
                 mccabe = { enabled = false },
                 pycodestyle = { enabled = false },
                 flake8 = {
-                    enabled = false,
+                    enabled = true,
                     config = "/home/graham/.config/flake8/setup.cfg",
                 },
                 ruff = {
-                    enabled = true,
+                    enabled = false,
                     extendSelect = { "ALL" },
                     format = { "ALL" },
                 },
