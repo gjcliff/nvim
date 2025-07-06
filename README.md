@@ -1,6 +1,7 @@
 # Neovim
 
 ## Installation
+
 1. Follow Neovim's installation instructions here:
 https://github.com/neovim/neovim/blob/master/INSTALL.md
     * Don't install from apt, you're gonna want the most recent version
