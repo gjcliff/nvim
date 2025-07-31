@@ -25,5 +25,5 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-vim.cmd("colorscheme kanagawa-dragon")
--- vim.cmd("colorscheme dayfox")
+-- vim.cmd("colorscheme kanagawa-dragon")
+vim.cmd("colorscheme dayfox")
