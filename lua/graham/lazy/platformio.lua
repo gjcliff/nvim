@@ -8,7 +8,7 @@ return {
     { "nvim-telescope/telescope.nvim" },
     { "nvim-telescope/telescope-ui-select.nvim" },
     { "nvim-lua/plenary.nvim" },
-    { "folke/which-key.nvim" }, -- Add this
+    -- { "folke/which-key.nvim",                   enabled = false }, -- Add this
   },
   config = function()
     require("platformio").setup({
