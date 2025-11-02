@@ -13,20 +13,20 @@ vim.keymap.set("n", "<M-l>", "<C-w>5<", { noremap = true, silent = true })
 vim.keymap.set("t", "<C-b>", "<C-\\><C-n>", { noremap = true, silent = true })
 
 -- obsidian
-vim.keymap.set("n", "<leader>oo",
-  "<cmd>e ~/Documents/obsidian/modalic/Index.md<CR>")
-vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailies<CR>")
-vim.keymap.set({ "n", "v" }, "<leader>ol", "<cmd>ObsidianLink<CR>")
-vim.keymap.set({ "n", "v" }, "<leader>on", "<cmd>ObsidianLinkNew<CR>")
-vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>")
-vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>")
-vim.keymap.set("n", "<leader>oj",
-  "<cmd>e ~/Documents/obsidian/modalic/modalic/Job Search.md<CR>")
-vim.keymap.set("n", "<leader>ot",
-  "<cmd>e ~/Documents/obsidian/modalic/modalic/Tasks.md<CR>")
-vim.keymap.set("n", "<leader>oi", "<cmd>ObsidianIndex<CR>")
-vim.keymap.set("n", "<leader>ok",
-  "<cmd>e ~/Documents/obsidian/modalic/modalic/Knowledge Base.md<CR>")
+-- vim.keymap.set("n", "<leader>oo",
+--   "<cmd>e ~/Documents/obsidian/modalic/Index.md<CR>")
+-- vim.keymap.set("n", "<leader>od", "<cmd>ObsidianDailies<CR>")
+-- vim.keymap.set({ "n", "v" }, "<leader>ol", "<cmd>ObsidianLink<CR>")
+-- vim.keymap.set({ "n", "v" }, "<leader>on", "<cmd>ObsidianLinkNew<CR>")
+-- vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>")
+-- vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>")
+-- vim.keymap.set("n", "<leader>ow", "<cmd>ObsidianWorkspace<CR>")
+-- vim.keymap.set("n", "<leader>oj",
+--   "<cmd>e ~/Documents/obsidian/modalic/modalic/Job Search.md<CR>")
+-- vim.keymap.set("n", "<leader>ot",
+--   "<cmd>e ~/Documents/obsidian/modalic/modalic/Tasks.md<CR>")
+-- vim.keymap.set("n", "<leader>ok",
+--   "<cmd>e ~/Documents/obsidian/modalic/modalic/Knowledge Base.md<CR>")
 
 vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end)
 vim.keymap.set("n", "gD", function() vim.lsp.buf.declaration() end)
@@ -66,7 +66,7 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 -- greatest remap ever
-vim.keymap.set("x", "<leader>p", [["_dP]])
+-- vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
