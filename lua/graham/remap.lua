@@ -6,6 +6,9 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 vim.keymap.set("i", "<S-Tab>", "<C-d>")
 vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 
+vim.keymap.set('n', '<leader>cd', ':cd %:p:h<CR>',
+  { desc = "cd to current file dir" })
+
 vim.keymap.set("n", "<M-j>", "<C-w>5+", { noremap = true, silent = true })
 vim.keymap.set("n", "<M-k>", "<C-w>5-", { noremap = true, silent = true })
 vim.keymap.set("n", "<M-h>", "<C-w>5>", { noremap = true, silent = true })
