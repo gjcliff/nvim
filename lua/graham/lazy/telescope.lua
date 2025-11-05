@@ -1,6 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
-  tag = "0.1.5",
+  tag = "0.1.8",
   requires = { { "nvim-lua/plenary.nvim" } },
   config = function()
     local builtin = require('telescope.builtin')
@@ -17,14 +17,16 @@ return {
     vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = "Find keymaps" })
     vim.keymap.set('n', '<leader>fo', builtin.vim_options,
       { desc = "Find options" })
+    vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = "Find help" })
 
     vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find,
       { desc = "Search in buffer" })
 
     vim.keymap.set('n', '<leader>gc', builtin.git_commits,
       { desc = "Git commits" })
-    vim.keymap.set('n', '<leader>gC', builtin.git_bcommits,
-      { desc = "Git buffer commits" })
+    vim.keymap.set('n', '<leader>gC', ':0Gclog<CR>:copen<CR>', {
+      desc = "Git commit log"
+    })
     vim.keymap.set('n', '<leader>gb', builtin.git_branches,
       { desc = "Git branches" })
 
