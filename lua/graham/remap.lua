@@ -31,9 +31,6 @@ vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end)
 -- transfer
 vim.keymap.set("n", "<leader>tu", "<cmd>TransferUpload<CR>")
 
--- config
-vim.keymap.set("n", "<leader>cc", "<cmd>e ~/.config/nvim/<CR>")
-
 -- formatting
 vim.keymap.set("n", "<leader>bb",
   "<cmd>!black --config ~/.config/black/pyproject.toml --preview %<CR>")

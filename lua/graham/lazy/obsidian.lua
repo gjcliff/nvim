@@ -452,16 +452,19 @@ local function create_weekly_note()
   local week_start = get_week_start()
   local filename = string.format("Week-%s.md", week_start)
 
-  local client = get_client()
+  local client = require("obsidian").get_client()
   local note_path = client.dir.filename .. "/" .. filename
 
   -- Check if note already exists
   local file = io.open(note_path, "r")
   if file then
     file:close()
-    print("Weekly note already exists, opening...")
     vim.cmd("edit " .. note_path)
-    vim.defer_fn(refresh_weekly_content, 0)
+    print("Weekly note already exists, opening...")
+    -- Use schedule_wrap for better async handling
+    vim.schedule(function()
+      refresh_weekly_content()
+    end)
     return
   end
 
@@ -513,9 +516,20 @@ local function create_weekly_note()
   if new_file then
     new_file:write(table.concat(content, "\n"))
     new_file:close()
+
+    -- Set up one-time autocmd to refresh after buffer loads
+    local group = vim.api.nvim_create_augroup("WeeklyNoteRefresh",
+      { clear = true })
+    vim.api.nvim_create_autocmd("BufReadPost", {
+      group = group,
+      pattern = filename,
+      once = true,
+      callback = function()
+        vim.defer_fn(refresh_weekly_content, 100)
+      end,
+    })
+
     vim.cmd("edit " .. note_path)
-    -- Refresh tasks immediately
-    vim.defer_fn(refresh_weekly_content, 100)
     print("Weekly note created!")
   else
     print("Error creating weekly note")
