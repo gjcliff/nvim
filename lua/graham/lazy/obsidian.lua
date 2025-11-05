@@ -204,7 +204,6 @@ local function refresh_weekly_content()
     local title = line:match("%[%[([^%]]+)%]%]")
     if title then
       local due_str = line:match("due: ([%d%-]+)")
-      local is_long_running = line:match("#long%-running")
 
       if due_str then
         -- Parse YYYY-MM-DD format
@@ -218,15 +217,19 @@ local function refresh_weekly_content()
             hour = 0
           })
 
-          -- Read status from note file
+          -- Read status AND long_running from note file
           local note_path = client.dir.filename .. "/" .. title .. ".md"
           local note_file = io.open(note_path, "r")
           local status = "unknown"
+          local is_long_running = false
 
           if note_file then
             local note_content = note_file:read("*all")
             note_file:close()
             status = note_content:match("status:%s*([%w_]+)") or "unknown"
+            -- Read from frontmatter
+            local long_running_str = note_content:match("long_running:%s*(%w+)")
+            is_long_running = (long_running_str == "true")
           end
 
           -- Skip done tasks
@@ -447,7 +450,6 @@ local function show_weekly_tasks_picker()
   }):find()
 end
 
--- Create weekly note with initial tasks
 local function create_weekly_note()
   local week_start = get_week_start()
   local filename = string.format("Week-%s.md", week_start)
@@ -459,12 +461,9 @@ local function create_weekly_note()
   local file = io.open(note_path, "r")
   if file then
     file:close()
-    vim.cmd("edit " .. note_path)
     print("Weekly note already exists, opening...")
-    -- Use schedule_wrap for better async handling
-    vim.schedule(function()
-      refresh_weekly_content()
-    end)
+    vim.cmd("edit " .. note_path)
+    vim.defer_fn(refresh_weekly_content, 100) -- RE-ENABLED!
     return
   end
 
@@ -516,20 +515,8 @@ local function create_weekly_note()
   if new_file then
     new_file:write(table.concat(content, "\n"))
     new_file:close()
-
-    -- Set up one-time autocmd to refresh after buffer loads
-    local group = vim.api.nvim_create_augroup("WeeklyNoteRefresh",
-      { clear = true })
-    vim.api.nvim_create_autocmd("BufReadPost", {
-      group = group,
-      pattern = filename,
-      once = true,
-      callback = function()
-        vim.defer_fn(refresh_weekly_content, 100)
-      end,
-    })
-
     vim.cmd("edit " .. note_path)
+    vim.defer_fn(refresh_weekly_content, 100) -- RE-ENABLED!
     print("Weekly note created!")
   else
     print("Error creating weekly note")
@@ -665,155 +652,6 @@ local function reorganize_tasks()
   end
 end
 
--- Migrate old format tasks to new format
-local function migrate_old_tasks()
-  local client = get_client()
-  local tasks_path = client.dir.filename .. "/Tasks.md"
-
-  local task_file = io.open(tasks_path, "r")
-  if not task_file then
-    print("Could not open Tasks.md")
-    return
-  end
-
-  local content = task_file:read("*all")
-  task_file:close()
-
-  local current_section = "todo"
-  local section_map = {
-    ["## To Do"] = "todo",
-    ["## In Progress"] = "in_progress",
-    ["## On Hold"] = "on_hold",
-    ["## Done"] = "done"
-  }
-
-  local migrated_count = 0
-  local new_lines = {}
-
-  for line in content:gmatch("[^\r\n]+") do
-    -- Track which section we're in
-    for pattern, status in pairs(section_map) do
-      if line:match("^" .. pattern .. "$") then
-        current_section = status
-      end
-    end
-
-    -- Check if it's an old format task: [[@{date} title]]
-    local date_str, title = line:match("^%[%[@{([%d%-]+)}%s+(.-)%]%]$")
-
-    if date_str and title then
-      -- This is an old format task - convert it
-
-      -- Determine due date (use creation date + 7 days as default)
-      local year = tonumber(date_str:sub(1, 4)) or 0
-      local month = tonumber(date_str:sub(6, 7)) or 0
-      local day = tonumber(date_str:sub(9, 10)) or 0
-
-      local created_time = os.time({ year = year, month = month, day = day, hour = 0 })
-      local due_time = created_time + (7 * 86400) -- 7 days later
-      local due_date = os.date("%Y-%m-%d", due_time)
-
-      -- Create new format line
-      local new_line = string.format("[[%s]] | created: %s | due: %s", title,
-        date_str, due_date)
-      table.insert(new_lines, new_line)
-
-      -- Create note file with metadata
-      local note_path = client.dir.filename .. "/" .. title .. ".md"
-      local note_file = io.open(note_path, "r")
-
-      if not note_file then
-        -- Note doesn't exist, create it
-        local note_content = {
-          "---",
-          "created: " .. date_str,
-          "due: " .. due_date,
-          "status: " .. current_section,
-          "long_running: false",
-          "tags:",
-          "  - task",
-          "---",
-          "",
-          "# " .. title,
-          "",
-        }
-
-        local new_note = io.open(note_path, "w")
-        if new_note then
-          new_note:write(table.concat(note_content, "\n"))
-          new_note:close()
-          migrated_count = migrated_count + 1
-        end
-      else
-        note_file:close()
-      end
-    else
-      -- Not an old format task, keep as-is
-      table.insert(new_lines, line)
-    end
-  end
-
-  -- Write updated Tasks.md
-  local output_file = io.open(tasks_path, "w")
-  if output_file then
-    output_file:write(table.concat(new_lines, "\n"))
-    output_file:close()
-    print(string.format("Migrated %d old tasks to new format!", migrated_count))
-  else
-    print("Could not write to Tasks.md")
-  end
-end
-
--- Fix date format in all task note files
-local function fix_note_date_formats()
-  local client = get_client()
-  local vault_path = client.dir.filename
-
-  local fixed_count = 0
-
-  -- Get all .md files in vault
-  local handle = io.popen("find " ..
-    vault_path .. " -maxdepth 1 -name '*.md' -type f")
-  if not handle then
-    print("Could not list files")
-    return
-  end
-
-  local files = handle:read("*all")
-  handle:close()
-
-  for file_path in files:gmatch("[^\r\n]+") do
-    local file = io.open(file_path, "r")
-    if file then
-      local content = file:read("*all")
-      file:close()
-
-      -- Check if it has frontmatter with dates
-      if content:match("^%-%-%-") then
-        local modified = false
-
-        -- Fix "created: YYYY-MM-DD" and "due: MM-DD-YYYY" in frontmatter
-        local new_content = content:gsub("due: (%d%d)%-(%d%d)%-(%d%d%d%d)",
-          function(month, day, year)
-            modified = true
-            return string.format("due: %s-%s-%s", year, month, day)
-          end)
-
-        if modified then
-          local output = io.open(file_path, "w")
-          if output then
-            output:write(new_content)
-            output:close()
-            fixed_count = fixed_count + 1
-          end
-        end
-      end
-    end
-  end
-
-  print(string.format("Fixed date format in %d note files!", fixed_count))
-end
-
 local function create_journal_entry()
   local command = string.format("ObsidianNewFromTemplate %s.md",
     os.date("%Y-%m-%d"))
@@ -849,9 +687,6 @@ vim.api.nvim_create_user_command("Otl", function(opts)
   create_task_with_metadata({ args = opts.args .. "||true" })
 end, { nargs = 1 })
 vim.api.nvim_create_user_command("ObsidianTasksReorganize", reorganize_tasks, {})
-vim.api.nvim_create_user_command("ObsidianTasksMigrate", migrate_old_tasks, {})
-vim.api.nvim_create_user_command("ObsidianNotesFixDates", fix_note_date_formats,
-  {})
 
 -- ============================================================================
 -- Plugin Configuration
@@ -883,13 +718,13 @@ return {
     -- Workspace switching
     { "<leader>oW",  "<cmd>ObsidianWorkspace<CR>",       desc = "Switch workspace" },
     --
-    { "<leader>ow",  "<cmd>ObsidianWeekly<CR>",          desc = "Open/create weekly note" },
-    { "<leader>owt", "<cmd>ObsidianWeeklyTasks<CR>",     desc = "View weekly tasks" },
-    { "<leader>owr", "<cmd>ObsidianWeeklyRefresh<CR>",   desc = "Refresh weekly tasks" },
+    {
+      "<leader>ow", "<cmd>ObsidianWeekly<CR>", desc = "Open/create weekly note"
+    },
+    { "<leader>wt",  "<cmd>ObsidianWeeklyTasks<CR>",     desc = "View weekly tasks" },
+    { "<leader>wr",  "<cmd>ObsidianWeeklyRefresh<CR>",   desc = "Refresh weekly tasks" },
 
     { "<leader>otr", "<cmd>ObsidianTasksReorganize<CR>", desc = "Reorganize tasks by status" },
-    { "<leader>otm", "<cmd>ObsidianTasksMigrate<CR>",    desc = "Migrate old tasks to new format" },
-    { "<leader>onf", "<cmd>ObsidianNotesFixDates<CR>",   desc = "Fix note date formats" },
 
     -- Quick navigation
     { "<leader>oq",  "<cmd>ObsidianQuickSwitch<CR>",     desc = "Quick switch to note" },
@@ -902,14 +737,14 @@ return {
     { "<leader>om",  "<cmd>ObsidianTomorrow<CR>",        desc = "Tomorrow's note" },
 
     -- Link management
-    { "<leader>ol",  "<cmd>ObsidianLink<CR>",            mode = { "n", "v" },                     desc = "Link to note" },
-    { "<leader>on",  "<cmd>ObsidianLinkNew<CR>",         mode = { "n", "v" },                     desc = "Create linked note" },
+    { "<leader>ol",  "<cmd>ObsidianLink<CR>",            mode = { "n", "v" },                desc = "Link to note" },
+    { "<leader>on",  "<cmd>ObsidianLinkNew<CR>",         mode = { "n", "v" },                desc = "Create linked note" },
 
     -- Templates
-    { "<leader>ote", "<cmd>ObsidianTemplate<CR>",        desc = "Insert template" },
+    -- { "<leader>ote", "<cmd>ObsidianTemplate<CR>",        desc = "Insert template" },
 
     -- Quick task creation
-    { "<leader>ot",  ":ObsidianTaskNew ",                desc = "Create task" }, -- Just start typing
+    -- { "<leader>ot",  ":ObsidianTaskNew ",                desc = "Create task" }, -- Just start typing
     {
       "<leader>oT",
       function()
@@ -932,16 +767,16 @@ return {
     },
 
     -- Quick shortcuts for common patterns
-    { "<leader>otf", ":ObsidianTaskNew ", desc = "Task (Friday)" }, -- Just type task name
-    {
-      "<leader>otl",
-      function()
-        vim.ui.input({ prompt = "Long-running task: " }, function(task)
-          if task then vim.cmd("ObsidianTaskNew " .. task .. "||true") end
-        end)
-      end,
-      desc = "Long-running task"
-    },
+    -- { "<leader>otf", ":ObsidianTaskNew ", desc = "Task (Friday)" }, -- Just type task name
+    -- {
+    --   "<leader>otl",
+    --   function()
+    --     vim.ui.input({ prompt = "Long-running task: " }, function(task)
+    --       if task then vim.cmd("ObsidianTaskNew " .. task .. "||true") end
+    --     end)
+    --   end,
+    --   desc = "Long-running task"
+    -- },
 
     -- Special notes (workspace-aware)
     {
@@ -952,14 +787,14 @@ return {
       end,
       desc = "Open Index",
     },
-    -- {
-    --   "<leader>ot",
-    --   function()
-    --     local client = get_client()
-    --     vim.cmd("edit " .. client.dir.filename .. "/Tasks.md")
-    --   end,
-    --   desc = "Open Tasks",
-    -- },
+    {
+      "<leader>ott",
+      function()
+        local client = get_client()
+        vim.cmd("edit " .. client.dir.filename .. "/Tasks.md")
+      end,
+      desc = "Open Tasks",
+    },
     {
       "<leader>oj",
       function()
@@ -988,7 +823,7 @@ return {
     require("obsidian").setup({
       -- UI Configuration
       ui = {
-        enable = true,
+        enable = false,
         update_debounce = 200,
         max_file_length = 5000,
         checkboxes = {
