@@ -24,7 +24,7 @@ return {
 
     vim.keymap.set('n', '<leader>gc', builtin.git_commits,
       { desc = "Git commits" })
-    vim.keymap.set('n', '<leader>gC', ':0Gclog<CR>:copen<CR>', {
+    vim.keymap.set('n', '<leader>gC', ':Gclog<CR>:copen<CR>', {
       desc = "Git commit log"
     })
     vim.keymap.set('n', '<leader>gb', builtin.git_branches,
