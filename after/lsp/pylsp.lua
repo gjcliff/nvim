@@ -34,7 +34,7 @@ return {
         pycodestyle = { enabled = false },
         flake8 = {
           enabled = true,
-          config = "/home/graham/.config/flake8/setup.cfg",
+          -- config = "/home/graham/.config/flake8/setup.cfg",
         },
         ruff = {
           enabled = false,
