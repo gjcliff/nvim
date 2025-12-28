@@ -32,10 +32,10 @@ return {
         pyflakes = { enabled = false },
         mccabe = { enabled = false },
         pycodestyle = { enabled = false },
-        flake8 = {
-          enabled = true,
-          -- config = "/home/graham/.config/flake8/setup.cfg",
-        },
+        -- flake8 = {
+        --   enabled = true,
+        --   config = "/home/graham/.config/flake8/setup.cfg",
+        -- },
         ruff = {
           enabled = false,
           extendSelect = { "ALL" },
