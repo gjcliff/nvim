@@ -17,10 +17,10 @@ return {
         diagnosticSeverityOverrides = {
           reportArgumentType = "warning", -- or "none" to disable
           reportAttributeAccessIssue = "none",
-          reportCallIssue = "warning",
-          reportUnreachable = "warning",
-          reportUnusedImport = "none",
-          reportUnusedCoroutine = "warning",
+          -- reportCallIssue = "warning",
+          -- reportUnreachable = "warning",
+          -- reportUnusedImport = "none",
+          -- reportUnusedCoroutine = "warning",
         },
         -- diagnosticMode = "workspace",
         diagnosticMode = "openFilesOnly",
