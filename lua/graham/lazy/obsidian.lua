@@ -1,7 +1,3 @@
--- ============================================================================
--- Custom Functions
--- ============================================================================
---
 local obsidian_client
 local function get_client()
   if not obsidian_client then
@@ -821,7 +817,6 @@ return {
 
   config = function()
     require("obsidian").setup({
-      -- UI Configuration
       ui = {
         enable = false,
         update_debounce = 200,
@@ -936,7 +931,7 @@ return {
 
       -- Behavior
       log_level = vim.log.levels.INFO,
-      open_notes_in = "current", -- Changed from vsplit
+      open_notes_in = "current",
       sort_by = "modified",
       sort_reversed = true,
 
