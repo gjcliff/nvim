@@ -1,0 +1,37 @@
+return {
+  -- "nvim-neorg/neorg",
+  -- lazy = false,
+  -- version = "*",
+  -- config = function()
+  --   require("neorg").setup({
+  --     load = {
+  --       ["core.defaults"] = {},
+  --       ["core.concealer"] = {},
+  --       ["core.summary"] = {},
+  --       ["core.keybinds"] = {
+  --         config = {
+  --           default_keybinds = true,
+  --         },
+  --       },
+  --       ["core.dirman"] = {
+  --         config = {
+  --           workspaces = {
+  --             home = "~/Documents/neorg/home",
+  --             msd = "~/Documents/neorg/msd",
+  --           },
+  --           default_workspace = "home",
+  --         },
+  --       },
+  --       ["core.integrations.telescope"] = {},
+  --       ["external.integrations.fzf-lua"] = {}
+  --     },
+  --   })
+  -- end,
+  -- dependencies = {
+  --   { "nvim-lua/plenary.nvim",
+  --     "kev-cao/neorg-fzflua",
+  --     "nvim-neorg/neorg-telescope",
+  --     "ibhagwan/fzf-lua",
+  --   },
+  -- },
+}

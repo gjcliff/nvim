@@ -1,8 +1,10 @@
 -- Example for configuring Neovim to load user-installed installed Lua rocks:
-package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/magick/init.lua;"
+package.path = package.path ..
+    ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/magick/init.lua;"
 -- package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua;"
 
-vim.cmd([[highlight Visual ctermbg=yellow ctermfg=black guibg=lightyellow guifg=black]])
+vim.cmd(
+    [[highlight Visual ctermbg=yellow ctermfg=black guibg=lightyellow guifg=black]])
 
 vim.g.netrw_liststyle = 3
 -- vim.g.netrw_syncolor = 1
@@ -12,7 +14,9 @@ vim.g.netrw_liststyle = 3
 -- vim.g.python3_host_prog = "/usr/bin/python3"
 
 vim.opt.conceallevel = 2
+vim.api.nvim_set_hl(0, 'Underline', { underline = true })
 
+-- vim.opt.foldlevelstart = 99
 vim.opt.spell = false
 vim.opt.nu = true
 vim.opt.relativenumber = true
@@ -48,24 +52,24 @@ vim.opt.colorcolumn = "80"
 
 -- Set indenting options for C++ files
 vim.cmd(
-  [[
+    [[
   autocmd FileType cpp setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
 ]],
-  false
+    false
 )
 
 -- Set indenting options for C++ files
 vim.cmd(
-  [[
+    [[
   autocmd FileType c setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab smartindent
 ]],
-  false
+    false
 )
 
 -- Set indenting options for Python files
 vim.cmd(
-  [[
+    [[
   autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab smartindent
 ]],
-  false
+    false
 )

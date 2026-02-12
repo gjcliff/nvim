@@ -688,262 +688,262 @@
 -- -- Plugin Configuration
 -- -- ============================================================================
 --
-return {
-  --   "obsidian-nvim/obsidian.nvim",
-  --   version = "*",
-  --   lazy = true,
-  --   ft = "markdown",
-  --   --@module 'obsidian'
-  --   --@type obsidian.config
-  --   -- cmd = {
-  --   --   "ObsidianOpen",
-  --   --   "ObsidianNew",
-  --   --   "ObsidianQuickSwitch",
-  --   --   "ObsidianToday",
-  --   --   "ObsidianYesterday",
-  --   --   "ObsidianTomorrow",
-  --   --   "ObsidianDailies",
-  --   --   "ObsidianSearch",
-  --   --   "ObsidianLink",
-  --   --   "ObsidianLinkNew",
-  --   --   "ObsidianWorkspace",
-  --   --   "ObsidianBacklinks",
-  --   --   "ObsidianTags",
-  --   --   "ObsidianTemplate",
-  --   --   "ObsidianNewFromTemplate",
-  --   -- },
-  --   keys = {
-  --     -- Workspace switching
-  --     { "<leader>oW",  "<cmd>ObsidianWorkspace<CR>",       desc = "Switch workspace" },
-  --     --
-  --     {
-  --       "<leader>ow", "<cmd>ObsidianWeekly<CR>", desc = "Open/create weekly note"
-  --     },
-  --     { "<leader>wt",  "<cmd>ObsidianWeeklyTasks<CR>",     desc = "View weekly tasks" },
-  --     { "<leader>wr",  "<cmd>ObsidianWeeklyRefresh<CR>",   desc = "Refresh weekly tasks" },
-  --
-  --     { "<leader>otr", "<cmd>ObsidianTasksReorganize<CR>", desc = "Reorganize tasks by status" },
-  --
-  --     -- Quick navigation
-  --     { "<leader>oq",  "<cmd>ObsidianQuickSwitch<CR>",     desc = "Quick switch to note" },
-  --     { "<leader>os",  "<cmd>ObsidianSearch<CR>",          desc = "Search notes" },
-  --     { "<leader>ob",  "<cmd>ObsidianBacklinks<CR>",       desc = "Show backlinks" },
-  --
-  --     -- Daily notes
-  --     { "<leader>od",  "<cmd>ObsidianToday<CR>",           desc = "Today's note" },
-  --     { "<leader>oy",  "<cmd>ObsidianYesterday<CR>",       desc = "Yesterday's note" },
-  --     { "<leader>om",  "<cmd>ObsidianTomorrow<CR>",        desc = "Tomorrow's note" },
-  --
-  --     -- Link management
-  --     { "<leader>ol",  "<cmd>ObsidianLink<CR>",            mode = { "n", "v" },                desc = "Link to note" },
-  --     { "<leader>on",  "<cmd>ObsidianLinkNew<CR>",         mode = { "n", "v" },                desc = "Create linked note" },
-  --
-  --     -- Templates
-  --     -- { "<leader>ote", "<cmd>ObsidianTemplate<CR>",        desc = "Insert template" },
-  --
-  --     -- Quick task creation
-  --     -- { "<leader>ot",  ":ObsidianTaskNew ",                desc = "Create task" }, -- Just start typing
-  --     {
-  --       "<leader>oT",
-  --       function()
-  --         vim.ui.input({ prompt = "Task: " }, function(task)
-  --           if task then
-  --             vim.ui.input({ prompt = "Due date (or press enter for Friday): " },
-  --               function(date)
-  --                 vim.ui.input({ prompt = "Long-running? (y/n): " }, function(long)
-  --                   local cmd = string.format("ObsidianTaskNew %s|%s|%s",
-  --                     task,
-  --                     date or "",
-  --                     long == "y" and "true" or "false")
-  --                   vim.cmd(cmd)
-  --                 end)
-  --               end)
-  --           end
-  --         end)
-  --       end,
-  --       desc = "Create task (interactive)"
-  --     },
-  --
-  --     -- Quick shortcuts for common patterns
-  --     -- { "<leader>otf", ":ObsidianTaskNew ", desc = "Task (Friday)" }, -- Just type task name
-  --     -- {
-  --     --   "<leader>otl",
-  --     --   function()
-  --     --     vim.ui.input({ prompt = "Long-running task: " }, function(task)
-  --     --       if task then vim.cmd("ObsidianTaskNew " .. task .. "||true") end
-  --     --     end)
-  --     --   end,
-  --     --   desc = "Long-running task"
-  --     -- },
-  --
-  --     -- Special notes (workspace-aware)
-  --     {
-  --       "<leader>oo",
-  --       function()
-  --         local client = get_client()
-  --         vim.cmd("edit " .. client.dir.filename .. "/Index.md")
-  --       end,
-  --       desc = "Open Index",
-  --     },
-  --     {
-  --       "<leader>ott",
-  --       function()
-  --         local client = get_client()
-  --         vim.cmd("edit " .. client.dir.filename .. "/Tasks.md")
-  --       end,
-  --       desc = "Open Tasks",
-  --     },
-  --     {
-  --       "<leader>oj",
-  --       function()
-  --         local client = get_client()
-  --         vim.cmd("edit " .. client.dir.filename .. "/Job Search.md")
-  --       end,
-  --       desc = "Open Job Search",
-  --     },
-  --     {
-  --       "<leader>ok",
-  --       function()
-  --         local client = get_client()
-  --         vim.cmd("edit " .. client.dir.filename .. "/Knowledge Base.md")
-  --       end,
-  --       desc = "Open Knowledge Base",
-  --     },
-  --   },
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     "hrsh7th/nvim-cmp",
-  --     "nvim-telescope/telescope.nvim",
-  --     "nvim-treesitter/nvim-treesitter",
-  --   },
-  --
-  --   config = function()
-  --     require("obsidian").setup({
-  --       ui = {
-  --         enable = false,
-  --         update_debounce = 200,
-  --         max_file_length = 5000,
-  --         checkboxes = {
-  --           [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
-  --           ["x"] = { char = "", hl_group = "ObsidianDone" },
-  --           [">"] = { char = "", hl_group = "ObsidianRightArrow" },
-  --           ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
-  --         },
-  --       },
-  --
-  --       -- Workspaces
-  --       workspaces = {
-  --         {
-  --           name = "modalic",
-  --           path = "~/Documents/obsidian/modalic/",
-  --         },
-  --         {
-  --           name = "remodel",
-  --           path = "~/Documents/obsidian/remodel/",
-  --         },
-  --         {
-  --           name = "playground",
-  --           path = "~/Documents/obsidian/playground/",
-  --         },
-  --         {
-  --           name = "oceancomm",
-  --           path = "~/Documents/obsidian/oceancomm/",
-  --         },
-  --         {
-  --           name = "home",
-  --           path = "~/Documents/obsidian/home/",
-  --         },
-  --       },
-  --
-  --       -- Daily Notes Configuration
-  --       daily_notes = {
-  --         date_format = "%Y-%m-%d",
-  --         alias_format = "%B %-d, %Y",
-  --       },
-  --
-  --       -- Completion
-  --       completion = {
-  --         nvim_cmp = true,
-  --         min_chars = 2,
-  --       },
-  --
-  --       -- Buffer Mappings (only active in markdown files)
-  --       mappings = {
-  --         ["gf"] = {
-  --           action = function()
-  --             return require("obsidian").util.gf_passthrough()
-  --           end,
-  --           opts = { noremap = false, expr = true, buffer = true },
-  --         },
-  --         ["<leader>ch"] = {
-  --           action = function()
-  --             return require("obsidian").util.toggle_checkbox()
-  --           end,
-  --           opts = { buffer = true },
-  --         },
-  --         ["<cr>"] = {
-  --           action = function()
-  --             return require("obsidian").util.smart_action()
-  --           end,
-  --           opts = { buffer = true, expr = true },
-  --         },
-  --       },
-  --
-  --       -- Picker Configuration
-  --       picker = {
-  --         name = "telescope.nvim",
-  --         note_mappings = {
-  --           new = "<C-x>",
-  --           insert_link = "<C-l>",
-  --         },
-  --         tag_mappings = {
-  --           tag_note = "<C-x>",
-  --           insert_tag = "<C-l>",
-  --         },
-  --       },
-  --
-  --       -- URL Handler
-  --       follow_url_func = function(url)
-  --         vim.fn.jobstart({ "xdg-open", url })
-  --       end,
-  --
-  --       -- Templates
-  --       templates = {
-  --         folder = "templates",
-  --         date_format = "%Y-%m-%d",
-  --         time_format = "%H:%M",
-  --         substitutions = {
-  --           yesterday = function()
-  --             return os.date("%Y-%m-%d", os.time() - 86400)
-  --           end,
-  --           tomorrow = function()
-  --             return os.date("%Y-%m-%d", os.time() + 86400)
-  --           end,
-  --           week = function()
-  --             local week_start = os.time()
-  --             local day_of_week = tonumber(os.date("%w", week_start))
-  --             local days_since_monday = (day_of_week - 1) % 7
-  --             if day_of_week == 0 then days_since_monday = 6 end
-  --             local monday = os.date("%Y-%m-%d",
-  --               week_start - (days_since_monday * 86400))
-  --             return "Week of " .. monday
-  --           end,
-  --         },
-  --       },
-  --
-  --       -- Behavior
-  --       log_level = vim.log.levels.INFO,
-  --       open_notes_in = "current",
-  --       sort_by = "modified",
-  --       sort_reversed = true,
-  --
-  --       -- Note Naming
-  --       note_id_func = function(title)
-  --         return title
-  --       end,
-  --
-  --       -- Link Style
-  --       preferred_link_style = "wiki",
-  --     })
-  --   end,
-}
+-- return {
+--   "obsidian-nvim/obsidian.nvim",
+--   version = "*",
+--   lazy = true,
+--   ft = "markdown",
+--   --@module 'obsidian'
+--   --@type obsidian.config
+--   -- cmd = {
+--   --   "ObsidianOpen",
+--   --   "ObsidianNew",
+--   --   "ObsidianQuickSwitch",
+--   --   "ObsidianToday",
+--   --   "ObsidianYesterday",
+--   --   "ObsidianTomorrow",
+--   --   "ObsidianDailies",
+--   --   "ObsidianSearch",
+--   --   "ObsidianLink",
+--   --   "ObsidianLinkNew",
+--   --   "ObsidianWorkspace",
+--   --   "ObsidianBacklinks",
+--   --   "ObsidianTags",
+--   --   "ObsidianTemplate",
+--   --   "ObsidianNewFromTemplate",
+--   -- },
+--   keys = {
+--     -- Workspace switching
+--     { "<leader>oW",  "<cmd>ObsidianWorkspace<CR>",       desc = "Switch workspace" },
+--     --
+--     {
+--       "<leader>ow", "<cmd>ObsidianWeekly<CR>", desc = "Open/create weekly note"
+--     },
+--     { "<leader>wt",  "<cmd>ObsidianWeeklyTasks<CR>",     desc = "View weekly tasks" },
+--     { "<leader>wr",  "<cmd>ObsidianWeeklyRefresh<CR>",   desc = "Refresh weekly tasks" },
+--
+--     { "<leader>otr", "<cmd>ObsidianTasksReorganize<CR>", desc = "Reorganize tasks by status" },
+--
+--     -- Quick navigation
+--     { "<leader>oq",  "<cmd>ObsidianQuickSwitch<CR>",     desc = "Quick switch to note" },
+--     { "<leader>os",  "<cmd>ObsidianSearch<CR>",          desc = "Search notes" },
+--     { "<leader>ob",  "<cmd>ObsidianBacklinks<CR>",       desc = "Show backlinks" },
+--
+--     -- Daily notes
+--     { "<leader>od",  "<cmd>ObsidianToday<CR>",           desc = "Today's note" },
+--     { "<leader>oy",  "<cmd>ObsidianYesterday<CR>",       desc = "Yesterday's note" },
+--     { "<leader>om",  "<cmd>ObsidianTomorrow<CR>",        desc = "Tomorrow's note" },
+--
+--     -- Link management
+--     { "<leader>ol",  "<cmd>ObsidianLink<CR>",            mode = { "n", "v" },                desc = "Link to note" },
+--     { "<leader>on",  "<cmd>ObsidianLinkNew<CR>",         mode = { "n", "v" },                desc = "Create linked note" },
+--
+--     -- Templates
+--     -- { "<leader>ote", "<cmd>ObsidianTemplate<CR>",        desc = "Insert template" },
+--
+--     -- Quick task creation
+--     -- { "<leader>ot",  ":ObsidianTaskNew ",                desc = "Create task" }, -- Just start typing
+--     {
+--       "<leader>oT",
+--       function()
+--         vim.ui.input({ prompt = "Task: " }, function(task)
+--           if task then
+--             vim.ui.input({ prompt = "Due date (or press enter for Friday): " },
+--               function(date)
+--                 vim.ui.input({ prompt = "Long-running? (y/n): " }, function(long)
+--                   local cmd = string.format("ObsidianTaskNew %s|%s|%s",
+--                     task,
+--                     date or "",
+--                     long == "y" and "true" or "false")
+--                   vim.cmd(cmd)
+--                 end)
+--               end)
+--           end
+--         end)
+--       end,
+--       desc = "Create task (interactive)"
+--     },
+--
+--     -- Quick shortcuts for common patterns
+--     -- { "<leader>otf", ":ObsidianTaskNew ", desc = "Task (Friday)" }, -- Just type task name
+--     -- {
+--     --   "<leader>otl",
+--     --   function()
+--     --     vim.ui.input({ prompt = "Long-running task: " }, function(task)
+--     --       if task then vim.cmd("ObsidianTaskNew " .. task .. "||true") end
+--     --     end)
+--     --   end,
+--     --   desc = "Long-running task"
+--     -- },
+--
+--     -- Special notes (workspace-aware)
+--     {
+--       "<leader>oo",
+--       function()
+--         local client = get_client()
+--         vim.cmd("edit " .. client.dir.filename .. "/Index.md")
+--       end,
+--       desc = "Open Index",
+--     },
+--     {
+--       "<leader>ott",
+--       function()
+--         local client = get_client()
+--         vim.cmd("edit " .. client.dir.filename .. "/Tasks.md")
+--       end,
+--       desc = "Open Tasks",
+--     },
+--     {
+--       "<leader>oj",
+--       function()
+--         local client = get_client()
+--         vim.cmd("edit " .. client.dir.filename .. "/Job Search.md")
+--       end,
+--       desc = "Open Job Search",
+--     },
+--     {
+--       "<leader>ok",
+--       function()
+--         local client = get_client()
+--         vim.cmd("edit " .. client.dir.filename .. "/Knowledge Base.md")
+--       end,
+--       desc = "Open Knowledge Base",
+--     },
+--   },
+--   dependencies = {
+--     "nvim-lua/plenary.nvim",
+--     "hrsh7th/nvim-cmp",
+--     "nvim-telescope/telescope.nvim",
+--     "nvim-treesitter/nvim-treesitter",
+--   },
+--
+--   config = function()
+--     require("obsidian").setup({
+--       ui = {
+--         enable = false,
+--         update_debounce = 200,
+--         max_file_length = 5000,
+--         checkboxes = {
+--           [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
+--           ["x"] = { char = "", hl_group = "ObsidianDone" },
+--           [">"] = { char = "", hl_group = "ObsidianRightArrow" },
+--           ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
+--         },
+--       },
+--
+--       -- Workspaces
+--       workspaces = {
+--         {
+--           name = "modalic",
+--           path = "~/Documents/obsidian/modalic/",
+--         },
+--         {
+--           name = "remodel",
+--           path = "~/Documents/obsidian/remodel/",
+--         },
+--         {
+--           name = "playground",
+--           path = "~/Documents/obsidian/playground/",
+--         },
+--         {
+--           name = "oceancomm",
+--           path = "~/Documents/obsidian/oceancomm/",
+--         },
+--         {
+--           name = "home",
+--           path = "~/Documents/obsidian/home/",
+--         },
+--       },
+--
+--       -- Daily Notes Configuration
+--       daily_notes = {
+--         date_format = "%Y-%m-%d",
+--         alias_format = "%B %-d, %Y",
+--       },
+--
+--       -- Completion
+--       completion = {
+--         nvim_cmp = true,
+--         min_chars = 2,
+--       },
+--
+--       -- Buffer Mappings (only active in markdown files)
+--       mappings = {
+--         ["gf"] = {
+--           action = function()
+--             return require("obsidian").util.gf_passthrough()
+--           end,
+--           opts = { noremap = false, expr = true, buffer = true },
+--         },
+--         ["<leader>ch"] = {
+--           action = function()
+--             return require("obsidian").util.toggle_checkbox()
+--           end,
+--           opts = { buffer = true },
+--         },
+--         ["<cr>"] = {
+--           action = function()
+--             return require("obsidian").util.smart_action()
+--           end,
+--           opts = { buffer = true, expr = true },
+--         },
+--       },
+--
+--       -- Picker Configuration
+--       picker = {
+--         name = "telescope.nvim",
+--         note_mappings = {
+--           new = "<C-x>",
+--           insert_link = "<C-l>",
+--         },
+--         tag_mappings = {
+--           tag_note = "<C-x>",
+--           insert_tag = "<C-l>",
+--         },
+--       },
+--
+--       -- URL Handler
+--       follow_url_func = function(url)
+--         vim.fn.jobstart({ "xdg-open", url })
+--       end,
+--
+--       -- Templates
+--       templates = {
+--         folder = "templates",
+--         date_format = "%Y-%m-%d",
+--         time_format = "%H:%M",
+--         substitutions = {
+--           yesterday = function()
+--             return os.date("%Y-%m-%d", os.time() - 86400)
+--           end,
+--           tomorrow = function()
+--             return os.date("%Y-%m-%d", os.time() + 86400)
+--           end,
+--           week = function()
+--             local week_start = os.time()
+--             local day_of_week = tonumber(os.date("%w", week_start))
+--             local days_since_monday = (day_of_week - 1) % 7
+--             if day_of_week == 0 then days_since_monday = 6 end
+--             local monday = os.date("%Y-%m-%d",
+--               week_start - (days_since_monday * 86400))
+--             return "Week of " .. monday
+--           end,
+--         },
+--       },
+--
+--       -- Behavior
+--       log_level = vim.log.levels.INFO,
+--       open_notes_in = "current",
+--       sort_by = "modified",
+--       sort_reversed = true,
+--
+--       -- Note Naming
+--       note_id_func = function(title)
+--         return title
+--       end,
+--
+--       -- Link Style
+--       preferred_link_style = "wiki",
+--     })
+--   end,
+-- }

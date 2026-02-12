@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+vim.g.maplocalleader = ","
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 -- my stuff - Graham
@@ -12,6 +12,21 @@ vim.keymap.set(
   ":cd %:p:h<CR>",
   { desc = "cd to current file dir" }
 )
+
+-- neorg
+vim.keymap.set('n', '<localleader>sw',
+  '<cmd>Telescope neorg switch_workspace<CR>',
+  { desc = 'Switch neorg workspace' })
+vim.keymap.set('n', '<localleader>ss',
+  '<cmd>Telescope neorg find_linkable<CR>',
+  { desc = 'Switch neorg workspace' })
+vim.keymap.set('n', '<localleader>il',
+  '<cmd>Telescope neorg insert_link<CR>',
+  { desc = 'Switch neorg workspace' })
+vim.keymap.set('n', '<localleader>ifl',
+  '<cmd>Telescope neorg insert_file_link<CR>',
+  { desc = 'Switch neorg workspace' })
+
 
 vim.keymap.set("n", "<M-j>", "<C-w>5+", { noremap = true, silent = true })
 vim.keymap.set("n", "<M-k>", "<C-w>5-", { noremap = true, silent = true })

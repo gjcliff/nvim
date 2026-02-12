@@ -22,6 +22,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "org",
+  callback = function()
+    vim.opt_local.textwidth = 80
+    vim.opt_local.formatoptions = "cnqtj"
+  end,
+})
+
 vim.api.nvim_create_autocmd('TextYankPost', {
   group = gram_group,
   pattern = '*',
