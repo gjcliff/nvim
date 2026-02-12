@@ -105,10 +105,6 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "Q", "<nop>")
--- vim.keymap.set("n", "<C-f>", "<cmd>silent !~/.config/nvim/lua/scripts/tmux.sh && vim .<CR>")
--- vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format() end)
--- vim.keymap.set("v", "<leader>f", vim.lsp.formatexpr) -- why no work
-
 -- vim.keymap.set("n", "<C-h>", "<cmd>cnext<CR>zz")
 -- vim.keymap.set("n", "<C-l>", "<cmd>cprev<CR>zz")
 -- vim.keymap.set("n", "<leader>h", "<cmd>lnext<CR>zz")
