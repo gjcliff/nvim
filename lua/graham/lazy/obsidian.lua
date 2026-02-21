@@ -1,0 +1,949 @@
+-- local obsidian_client
+-- local function get_client()
+--   if not obsidian_client then
+--     obsidian_client = require("obsidian").get_client()
+--   end
+--   return obsidian_client
+-- end
+--
+-- -- Helper: Parse and format date to YYYY-MM-DD
+-- local function parse_date(date_input)
+--   if not date_input or date_input == "" then
+--     return nil
+--   end
+--
+--   -- If already in YYYY-MM-DD format, return as-is
+--   if date_input:match("^%d%d%d%d%-%d%d%-%d%d$") then
+--     return date_input
+--   end
+--
+--   -- If in YYYYMMDD format (20251225), convert to YYYY-MM-DD
+--   if date_input:match("^%d%d%d%d%d%d%d%d$") then
+--     local year = date_input:sub(1, 4)
+--     local month = date_input:sub(5, 6)
+--     local day = date_input:sub(7, 8)
+--     return string.format("%s-%s-%s", year, month, day)
+--   end
+--
+--   -- If in MM-DD-YYYY format, convert to YYYY-MM-DD
+--   if date_input:match("^%d+%-%d+%-%d%d%d%d$") then
+--     local month, day, year = date_input:match("^(%d+)%-(%d+)%-(%d%d%d%d)$")
+--     return string.format("%s-%02d-%02d", year, tonumber(month), tonumber(day))
+--   end
+--
+--   -- Otherwise return as-is
+--   return date_input
+-- end
+--
+-- -- Helper: Get next Friday (returns YYYY-MM-DD format)
+-- local function get_next_friday(from_date)
+--   from_date = from_date or os.time()
+--   local day_of_week = tonumber(os.date("%w", from_date))
+--   local days_until_friday = (5 - day_of_week) % 7
+--   if days_until_friday == 0 then
+--     days_until_friday = 7
+--   end
+--   return os.date("%Y-%m-%d", from_date + (days_until_friday * 86400))
+-- end
+--
+-- -- Helper: Get Monday of current week
+-- local function get_week_start()
+--   local now = os.time()
+--   local day_of_week = tonumber(os.date("%w", now))
+--   local days_since_monday = (day_of_week - 1) % 7
+--   if day_of_week == 0 then -- Sunday
+--     days_since_monday = 6
+--   end
+--   return os.date("%Y-%m-%d", now - (days_since_monday * 86400))
+-- end
+--
+-- -- Create task with due date and long-running flag
+-- local function create_task_with_metadata(opts)
+--   local args = vim.split(opts.args, "|")
+--   local title = args[1] and args[1]:gsub('"', '\\"') or ""
+--   local due_date_input = args[2]
+--   local is_long_running = args[3] == "true" or args[3] == "t"
+--
+--   if title == "" then
+--     print("Task title cannot be empty")
+--     return
+--   end
+--
+--   local due_date = parse_date(due_date_input) or get_next_friday()
+--   local flag = is_long_running and " #long-running" or ""
+--   local today = os.date("%Y-%m-%d")
+--
+--   -- Insert on new line above
+--   vim.cmd("normal! O")
+--   local link = string.format("[[%s]]", title)
+--   vim.api.nvim_put({ link }, "c", true, true)
+--   vim.cmd("normal! A" ..
+--     flag .. " | created: " .. today .. " | due: " .. due_date)
+--   vim.cmd("normal! ==")
+--
+--   -- Create the note file with metadata
+--   local client = get_client()
+--   local note_path = client.dir.filename .. "/" .. title .. ".md"
+--
+--   local file = io.open(note_path, "r")
+--   if not file then
+--     -- Only create if doesn't exist
+--     local content = {
+--       "---",
+--       "created: " .. today,
+--       "due: " .. due_date,
+--       "status: todo",
+--       "long_running: " .. tostring(is_long_running),
+--       "tags:",
+--       is_long_running and "  - long-running" or "  - task",
+--       "---",
+--       "",
+--       "# " .. title,
+--       "",
+--     }
+--
+--     local new_file = io.open(note_path, "w")
+--     if new_file then
+--       new_file:write(table.concat(content, "\n"))
+--       new_file:close()
+--       print("Task note created: " .. title)
+--     end
+--   else
+--     file:close()
+--   end
+-- end
+--
+-- -- Original simple task function (keeping for compatibility)
+-- local function create_note_with_template(opts)
+--   local title = opts.args:gsub('"', '\\"')
+--   if title == "" then
+--     print("Task title cannot be empty")
+--     return
+--   end
+--
+--   vim.cmd("normal! O")
+--   local link = string.format("@{%s} %s", os.date("%Y-%m-%d"), title)
+--   vim.api.nvim_put({ link }, "c", true, true)
+--   vim.cmd("normal! V")
+--   vim.cmd("ObsidianLinkNew")
+--   vim.cmd("normal! l")
+--   vim.defer_fn(function()
+--     vim.cmd("normal! d0")
+--   end, 1)
+-- end
+--
+-- -- Get daily notes for the current week
+-- local function get_weekly_daily_notes(week_start)
+--   local client = get_client()
+--   local vault_path = client.dir.filename
+--
+--   -- Calculate week boundaries
+--   local year, month, day = tonumber(week_start:sub(1, 4)) or 0,
+--       tonumber(week_start:sub(6, 7)) or 0,
+--       tonumber(week_start:sub(9, 10)) or 0
+--   local week_start_time = os.time({ year = year, month = month, day = day, hour = 0 })
+--
+--   local daily_notes = {}
+--
+--   -- Check each day of the week (Monday through Sunday)
+--   for i = 0, 6 do
+--     local day_time = week_start_time + (i * 86400)
+--     local date_str = os.date("%Y-%m-%d", day_time)
+--     local note_path = vault_path .. "/" .. date_str .. ".md"
+--
+--     -- Check if daily note exists
+--     local file = io.open(note_path, "r")
+--     if file then
+--       file:close()
+--       table.insert(daily_notes, string.format("[[%s]]", date_str))
+--     end
+--   end
+--
+--   return daily_notes
+-- end
+--
+-- -- Refresh weekly tasks and notes
+-- local function refresh_weekly_content()
+--   local current_file = vim.fn.expand("%:t")
+--
+--   if not current_file:match("^Week%-") then
+--     print("Not in a weekly note")
+--     return
+--   end
+--
+--   local week_start = current_file:match("Week%-(%d%d%d%d%-%d%d%-%d%d)")
+--   if not week_start then
+--     print("Could not parse week date from filename")
+--     return
+--   end
+--
+--   local client = get_client()
+--   local task_file = io.open(client.dir.filename .. "/Tasks.md", "r")
+--   if not task_file then
+--     print("Could not open Tasks.md")
+--     return
+--   end
+--
+--   local content = task_file:read("*all")
+--   task_file:close()
+--
+--   -- Calculate week boundaries
+--   local year, month, day = tonumber(week_start:sub(1, 4)) or 0,
+--       tonumber(week_start:sub(6, 7)) or 0,
+--       tonumber(week_start:sub(9, 10)) or 0
+--   local week_start_time = os.time({ year = year, month = month, day = day, hour = 0 })
+--   local week_end_time = week_start_time + (6 * 86400)
+--
+--   -- Filter tasks with metadata parsing
+--   local weekly_tasks, long_running_tasks = {}, {}
+--   for line in content:gmatch("[^\r\n]+") do
+--     local title = line:match("%[%[([^%]]+)%]%]")
+--     if title then
+--       local due_str = line:match("due: ([%d%-]+)")
+--
+--       if due_str then
+--         -- Parse YYYY-MM-DD format
+--         local due_year, due_month, due_day = due_str:match(
+--           "^(%d%d%d%d)%-(%d%d)%-(%d%d)$")
+--         if due_year and due_month and due_day then
+--           local task_time = os.time({
+--             year = tonumber(due_year) or 0,
+--             month = tonumber(due_month) or 0,
+--             day = tonumber(due_day) or 0,
+--             hour = 0
+--           })
+--
+--           -- Read status AND long_running from note file
+--           local note_path = client.dir.filename .. "/" .. title .. ".md"
+--           local note_file = io.open(note_path, "r")
+--           local status = "unknown"
+--           local is_long_running = false
+--
+--           if note_file then
+--             local note_content = note_file:read("*all")
+--             note_file:close()
+--             status = note_content:match("status:%s*([%w_]+)") or "unknown"
+--             -- Read from frontmatter
+--             local long_running_str = note_content:match("long_running:%s*(%w+)")
+--             is_long_running = (long_running_str == "true")
+--           end
+--
+--           -- Skip done tasks
+--           if status == "done" then
+--             goto continue
+--           end
+--
+--           -- Add status to the line
+--           local status_display = string.format("[%s]", status)
+--           local line_with_status = line .. " " .. status_display
+--
+--           if is_long_running then
+--             table.insert(long_running_tasks, line_with_status)
+--           elseif task_time >= week_start_time and task_time <= week_end_time then
+--             table.insert(weekly_tasks, line_with_status)
+--           end
+--
+--           ::continue::
+--         end
+--       end
+--     end
+--   end
+--
+--   -- Build new tasks section
+--   local new_tasks_section = { "## Tasks", "", "### Due This Week" }
+--   if #weekly_tasks > 0 then
+--     vim.list_extend(new_tasks_section, weekly_tasks)
+--   else
+--     table.insert(new_tasks_section, "_No tasks due this week_")
+--   end
+--
+--   table.insert(new_tasks_section, "")
+--   table.insert(new_tasks_section, "### Long Running")
+--
+--   if #long_running_tasks > 0 then
+--     vim.list_extend(new_tasks_section, long_running_tasks)
+--   else
+--     table.insert(new_tasks_section, "_No long-running tasks_")
+--   end
+--
+--   table.insert(new_tasks_section, "")
+--   table.insert(new_tasks_section, "[[Tasks|View All Tasks]]")
+--
+--   -- Get daily notes for the week
+--   local daily_notes = get_weekly_daily_notes(week_start)
+--   local new_notes_section = { "## Notes" }
+--   if #daily_notes > 0 then
+--     vim.list_extend(new_notes_section, daily_notes)
+--   else
+--     table.insert(new_notes_section, "_No daily notes this week_")
+--   end
+--   table.insert(new_notes_section, "")
+--
+--   -- Get current buffer content
+--   local buf_lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+--
+--   -- Find and update Tasks section
+--   local tasks_start, tasks_end
+--   for i, line in ipairs(buf_lines) do
+--     if line:match("^## Tasks$") then
+--       tasks_start = i
+--     elseif tasks_start and line:match("^##%s") then
+--       tasks_end = i - 1
+--       break
+--     end
+--   end
+--
+--   if tasks_start then
+--     tasks_end = tasks_end or #buf_lines
+--     local current_section = {}
+--     for i = tasks_start, tasks_end do
+--       table.insert(current_section, buf_lines[i])
+--     end
+--
+--     if table.concat(current_section, "\n") ~= table.concat(new_tasks_section, "\n") then
+--       vim.api.nvim_buf_set_lines(0, tasks_start - 1, tasks_end, false,
+--         new_tasks_section)
+--     end
+--   end
+--
+--   -- Find and update Notes section
+--   buf_lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+--   local notes_start, notes_end
+--   for i, line in ipairs(buf_lines) do
+--     if line:match("^## Notes$") then
+--       notes_start = i
+--     elseif notes_start and line:match("^##%s") then
+--       notes_end = i - 1
+--       break
+--     end
+--   end
+--
+--   if notes_start then
+--     notes_end = notes_end or #buf_lines
+--     local current_notes = {}
+--     for i = notes_start, notes_end do
+--       table.insert(current_notes, buf_lines[i])
+--     end
+--
+--     if table.concat(current_notes, "\n") ~= table.concat(new_notes_section, "\n") then
+--       vim.api.nvim_buf_set_lines(0, notes_start - 1, notes_end, false,
+--         new_notes_section)
+--     end
+--   end
+--
+--   print("Weekly content refreshed!")
+-- end
+--
+-- -- Show weekly tasks in Telescope picker
+-- local function show_weekly_tasks_picker()
+--   local current_file = vim.fn.expand("%:t")
+--   local week_start
+--
+--   if current_file:match("^Week%-") then
+--     week_start = current_file:match("Week%-(%d%d%d%d%-%d%d%-%d%d)")
+--   else
+--     week_start = get_week_start()
+--   end
+--
+--   if not week_start then
+--     print("Could not determine week")
+--     return
+--   end
+--
+--   local client = get_client()
+--   local task_file = io.open(client.dir.filename .. "/Tasks.md", "r")
+--   if not task_file then
+--     print("Could not open Tasks.md")
+--     return
+--   end
+--
+--   local content = task_file:read("*all")
+--   task_file:close()
+--
+--   -- Calculate week boundaries
+--   local year, month, day = tonumber(week_start:sub(1, 4)) or 0,
+--       tonumber(week_start:sub(6, 7)) or 0,
+--       tonumber(week_start:sub(9, 10)) or 0
+--   local week_start_time = os.time({ year = year, month = month, day = day, hour = 0 })
+--   local week_end_time = week_start_time + (6 * 86400)
+--
+--   -- Filter tasks with metadata
+--   local tasks = {}
+--   for line in content:gmatch("[^\r\n]+") do
+--     local title = line:match("%[%[([^%]]+)%]%]")
+--     if title then
+--       local created = line:match("created: ([%d%-]+)")
+--       local due_str = line:match("due: ([%d%-]+)")
+--       local is_long_running = line:match("#long%-running")
+--
+--       if due_str then
+--         local due_month, due_day, due_year = due_str:match(
+--           "^(%d+)%-(%d+)%-(%d+)$")
+--         if due_month and due_day and due_year then
+--           local task_time = os.time({
+--             year = tonumber(due_year) or 0,
+--             month = tonumber(due_month) or 0,
+--             day = tonumber(due_day) or 0,
+--             hour = 0
+--           })
+--
+--           if is_long_running then
+--             table.insert(tasks, {
+--               line = line,
+--               title = title,
+--               created = created,
+--               due = due_str,
+--               category = "Long Running"
+--             })
+--           elseif task_time >= week_start_time and task_time <= week_end_time then
+--             table.insert(tasks, {
+--               line = line,
+--               title = title,
+--               created = created,
+--               due = due_str,
+--               category = "Due This Week"
+--             })
+--           end
+--         end
+--       end
+--     end
+--   end
+--
+--   if #tasks == 0 then
+--     print("No tasks for this week")
+--     return
+--   end
+--
+--   -- Show in Telescope
+--   local pickers = require("telescope.pickers")
+--   local finders = require("telescope.finders")
+--   local conf = require("telescope.config").values
+--   local actions = require("telescope.actions")
+--   local action_state = require("telescope.actions.state")
+--
+--   pickers.new({}, {
+--     prompt_title = string.format("Weekly Tasks (%s)", week_start),
+--     finder = finders.new_table({
+--       results = tasks,
+--       entry_maker = function(entry)
+--         return {
+--           value = entry,
+--           display = string.format("[%s] %s | due: %s", entry.category,
+--             entry.title, entry.due),
+--           ordinal = entry.title,
+--         }
+--       end,
+--     }),
+--     sorter = conf.generic_sorter({}),
+--     attach_mappings = function(prompt_bufnr)
+--       actions.select_default:replace(function()
+--         actions.close(prompt_bufnr)
+--         local selection = action_state.get_selected_entry()
+--         vim.cmd(string.format("ObsidianOpen %s", selection.value.title))
+--       end)
+--       return true
+--     end,
+--   }):find()
+-- end
+--
+-- local function create_weekly_note()
+--   local week_start = get_week_start()
+--   local filename = string.format("Week-%s.md", week_start)
+--
+--   local client = require("obsidian").get_client()
+--   local note_path = client.dir.filename .. "/" .. filename
+--
+--   -- Check if note already exists
+--   local file = io.open(note_path, "r")
+--   if file then
+--     file:close()
+--     print("Weekly note already exists, opening...")
+--     vim.cmd("edit " .. note_path)
+--     vim.defer_fn(refresh_weekly_content, 100) -- RE-ENABLED!
+--     return
+--   end
+--
+--   -- Parse week_start date
+--   local year = tonumber(week_start:sub(1, 4)) or 0
+--   local month = tonumber(week_start:sub(6, 7)) or 0
+--   local day = tonumber(week_start:sub(9, 10)) or 0
+--
+--   -- Create note with initial structure
+--   local week_display = os.date("%B %d, %Y", os.time({
+--     year = year,
+--     month = month,
+--     day = day
+--   }))
+--
+--   local content = {
+--     "---",
+--     "id: " .. filename:gsub("%.md$", ""),
+--     "aliases: []",
+--     "tags:",
+--     "  - weekly",
+--     "date: \"" .. os.date("%Y-%m-%d") .. "\"",
+--     "week: Week of " .. week_start,
+--     "---",
+--     "",
+--     "# Week of " .. week_display,
+--     "",
+--     "## Tasks",
+--     "",
+--     "### Due This Week",
+--     "_No tasks due this week_",
+--     "",
+--     "### Long Running",
+--     "_No long-running tasks_",
+--     "",
+--     "[[Tasks|View All Tasks]]",
+--     "",
+--     "---",
+--     "",
+--     "## Notes",
+--     "",
+--     "## Goals",
+--     "",
+--     "## Reflections",
+--   }
+--
+--   -- Write file
+--   local new_file = io.open(note_path, "w")
+--   if new_file then
+--     new_file:write(table.concat(content, "\n"))
+--     new_file:close()
+--     vim.cmd("edit " .. note_path)
+--     vim.defer_fn(refresh_weekly_content, 100) -- RE-ENABLED!
+--     print("Weekly note created!")
+--   else
+--     print("Error creating weekly note")
+--   end
+-- end
+--
+-- -- Reorganize Tasks.md based on task metadata
+-- local function reorganize_tasks()
+--   local client = get_client()
+--   local tasks_path = client.dir.filename .. "/Tasks.md"
+--
+--   local task_file = io.open(tasks_path, "r")
+--   if not task_file then
+--     print("Could not open Tasks.md")
+--     return
+--   end
+--
+--   local content = task_file:read("*all")
+--   task_file:close()
+--
+--   -- Parse existing structure
+--   local header = {}
+--   local tasks_by_status = {
+--     todo = {},
+--     in_progress = {},
+--     on_hold = {},
+--     done = {}
+--   }
+--
+--   local in_header = true
+--
+--   for line in content:gmatch("[^\r\n]+") do
+--     if in_header then
+--       if line:match("^## ") then
+--         in_header = false
+--       else
+--         table.insert(header, line)
+--       end
+--     end
+--
+--     -- Try to extract task title
+--     local title = line:match("%[%[([^%]]+)%]%]")
+--     if title then
+--       -- Try to read the note file to get status
+--       local note_path = client.dir.filename .. "/" .. title .. ".md"
+--       local note_file = io.open(note_path, "r")
+--       local status = nil
+--
+--       if note_file then
+--         local note_content = note_file:read("*all")
+--         note_file:close()
+--
+--         -- Extract status from frontmatter
+--         status = note_content:match("status:%s*([%w_]+)")
+--       end
+--
+--       -- If no status found, try to infer from old format or default to todo
+--       if not status then
+--         -- Check if it's an old format task
+--         if line:match("^%[%[@{") then
+--           -- Old format - keep in its current section, default to todo
+--           status = "todo"
+--         else
+--           -- New format without status - default to todo
+--           status = "todo"
+--         end
+--       end
+--
+--       -- Add to appropriate status bucket
+--       if tasks_by_status[status] then
+--         table.insert(tasks_by_status[status], line)
+--       else
+--         -- Unknown status, default to todo
+--         table.insert(tasks_by_status.todo, line)
+--       end
+--     end
+--   end
+--
+--   -- Build new Tasks.md content
+--   local new_content = {}
+--   vim.list_extend(new_content, header)
+--   table.insert(new_content, "")
+--   table.insert(new_content, "## To Do")
+--   table.insert(new_content, "")
+--   if #tasks_by_status.todo > 0 then
+--     vim.list_extend(new_content, tasks_by_status.todo)
+--   else
+--     table.insert(new_content, "_No tasks_")
+--   end
+--
+--   table.insert(new_content, "")
+--   table.insert(new_content, "## In Progress")
+--   table.insert(new_content, "")
+--   if #tasks_by_status.in_progress > 0 then
+--     vim.list_extend(new_content, tasks_by_status.in_progress)
+--   else
+--     table.insert(new_content, "_No tasks_")
+--   end
+--
+--   table.insert(new_content, "")
+--   table.insert(new_content, "## On Hold")
+--   table.insert(new_content, "")
+--   if #tasks_by_status.on_hold > 0 then
+--     vim.list_extend(new_content, tasks_by_status.on_hold)
+--   else
+--     table.insert(new_content, "_No tasks_")
+--   end
+--
+--   table.insert(new_content, "")
+--   table.insert(new_content, "## Done")
+--   table.insert(new_content, "")
+--   if #tasks_by_status.done > 0 then
+--     vim.list_extend(new_content, tasks_by_status.done)
+--   else
+--     table.insert(new_content, "_No tasks_")
+--   end
+--
+--   -- Write back to Tasks.md
+--   local output_file = io.open(tasks_path, "w")
+--   if output_file then
+--     output_file:write(table.concat(new_content, "\n"))
+--     output_file:close()
+--
+--     -- Reload the buffer if we're currently viewing Tasks.md
+--     local current_file = vim.fn.expand("%:p")
+--     if current_file == tasks_path then
+--       vim.cmd("edit!")
+--     end
+--
+--     print("Tasks reorganized!")
+--   else
+--     print("Could not write to Tasks.md")
+--   end
+-- end
+--
+-- local function create_journal_entry()
+--   local command = string.format("ObsidianNewFromTemplate %s.md",
+--     os.date("%Y-%m-%d"))
+--   vim.cmd(command)
+-- end
+--
+-- local function create_link_to_index()
+--   local link = "[[Index]]"
+--   vim.api.nvim_put({ link }, "c", true, true)
+-- end
+--
+-- local function create_daily_note()
+--   local link = string.format("[[%s]]", os.date("%Y-%m-%d"))
+--   vim.api.nvim_put({ link }, "c", true, true)
+--   vim.cmd("ObsidianToday")
+-- end
+--
+-- -- Register custom commands
+-- vim.api.nvim_create_user_command("ObsidianTask", create_note_with_template,
+--   { nargs = 1 })
+-- vim.api.nvim_create_user_command("ObsidianTaskNew", create_task_with_metadata,
+--   { nargs = 1 })
+-- vim.api.nvim_create_user_command("ObsidianWeekly", create_weekly_note, {})
+-- vim.api.nvim_create_user_command("ObsidianWeeklyTasks", show_weekly_tasks_picker,
+--   {})
+-- vim.api.nvim_create_user_command("ObsidianWeeklyRefresh", refresh_weekly_content,
+--   {})
+-- vim.api.nvim_create_user_command("ObsidianJournal", create_journal_entry, {})
+-- vim.api.nvim_create_user_command("ObsidianIndex", create_link_to_index, {})
+-- vim.api.nvim_create_user_command("ObsidianDailyNote", create_daily_note, {})
+-- vim.api.nvim_create_user_command("Ot", create_task_with_metadata, { nargs = 1 })
+-- vim.api.nvim_create_user_command("Otl", function(opts)
+--   create_task_with_metadata({ args = opts.args .. "||true" })
+-- end, { nargs = 1 })
+-- vim.api.nvim_create_user_command("ObsidianTasksReorganize", reorganize_tasks, {})
+--
+-- -- ============================================================================
+-- -- Plugin Configuration
+-- -- ============================================================================
+--
+return {
+  --   "obsidian-nvim/obsidian.nvim",
+  --   version = "*",
+  --   lazy = true,
+  --   ft = "markdown",
+  --   --@module 'obsidian'
+  --   --@type obsidian.config
+  --   -- cmd = {
+  --   --   "ObsidianOpen",
+  --   --   "ObsidianNew",
+  --   --   "ObsidianQuickSwitch",
+  --   --   "ObsidianToday",
+  --   --   "ObsidianYesterday",
+  --   --   "ObsidianTomorrow",
+  --   --   "ObsidianDailies",
+  --   --   "ObsidianSearch",
+  --   --   "ObsidianLink",
+  --   --   "ObsidianLinkNew",
+  --   --   "ObsidianWorkspace",
+  --   --   "ObsidianBacklinks",
+  --   --   "ObsidianTags",
+  --   --   "ObsidianTemplate",
+  --   --   "ObsidianNewFromTemplate",
+  --   -- },
+  --   keys = {
+  --     -- Workspace switching
+  --     { "<leader>oW",  "<cmd>ObsidianWorkspace<CR>",       desc = "Switch workspace" },
+  --     --
+  --     {
+  --       "<leader>ow", "<cmd>ObsidianWeekly<CR>", desc = "Open/create weekly note"
+  --     },
+  --     { "<leader>wt",  "<cmd>ObsidianWeeklyTasks<CR>",     desc = "View weekly tasks" },
+  --     { "<leader>wr",  "<cmd>ObsidianWeeklyRefresh<CR>",   desc = "Refresh weekly tasks" },
+  --
+  --     { "<leader>otr", "<cmd>ObsidianTasksReorganize<CR>", desc = "Reorganize tasks by status" },
+  --
+  --     -- Quick navigation
+  --     { "<leader>oq",  "<cmd>ObsidianQuickSwitch<CR>",     desc = "Quick switch to note" },
+  --     { "<leader>os",  "<cmd>ObsidianSearch<CR>",          desc = "Search notes" },
+  --     { "<leader>ob",  "<cmd>ObsidianBacklinks<CR>",       desc = "Show backlinks" },
+  --
+  --     -- Daily notes
+  --     { "<leader>od",  "<cmd>ObsidianToday<CR>",           desc = "Today's note" },
+  --     { "<leader>oy",  "<cmd>ObsidianYesterday<CR>",       desc = "Yesterday's note" },
+  --     { "<leader>om",  "<cmd>ObsidianTomorrow<CR>",        desc = "Tomorrow's note" },
+  --
+  --     -- Link management
+  --     { "<leader>ol",  "<cmd>ObsidianLink<CR>",            mode = { "n", "v" },                desc = "Link to note" },
+  --     { "<leader>on",  "<cmd>ObsidianLinkNew<CR>",         mode = { "n", "v" },                desc = "Create linked note" },
+  --
+  --     -- Templates
+  --     -- { "<leader>ote", "<cmd>ObsidianTemplate<CR>",        desc = "Insert template" },
+  --
+  --     -- Quick task creation
+  --     -- { "<leader>ot",  ":ObsidianTaskNew ",                desc = "Create task" }, -- Just start typing
+  --     {
+  --       "<leader>oT",
+  --       function()
+  --         vim.ui.input({ prompt = "Task: " }, function(task)
+  --           if task then
+  --             vim.ui.input({ prompt = "Due date (or press enter for Friday): " },
+  --               function(date)
+  --                 vim.ui.input({ prompt = "Long-running? (y/n): " }, function(long)
+  --                   local cmd = string.format("ObsidianTaskNew %s|%s|%s",
+  --                     task,
+  --                     date or "",
+  --                     long == "y" and "true" or "false")
+  --                   vim.cmd(cmd)
+  --                 end)
+  --               end)
+  --           end
+  --         end)
+  --       end,
+  --       desc = "Create task (interactive)"
+  --     },
+  --
+  --     -- Quick shortcuts for common patterns
+  --     -- { "<leader>otf", ":ObsidianTaskNew ", desc = "Task (Friday)" }, -- Just type task name
+  --     -- {
+  --     --   "<leader>otl",
+  --     --   function()
+  --     --     vim.ui.input({ prompt = "Long-running task: " }, function(task)
+  --     --       if task then vim.cmd("ObsidianTaskNew " .. task .. "||true") end
+  --     --     end)
+  --     --   end,
+  --     --   desc = "Long-running task"
+  --     -- },
+  --
+  --     -- Special notes (workspace-aware)
+  --     {
+  --       "<leader>oo",
+  --       function()
+  --         local client = get_client()
+  --         vim.cmd("edit " .. client.dir.filename .. "/Index.md")
+  --       end,
+  --       desc = "Open Index",
+  --     },
+  --     {
+  --       "<leader>ott",
+  --       function()
+  --         local client = get_client()
+  --         vim.cmd("edit " .. client.dir.filename .. "/Tasks.md")
+  --       end,
+  --       desc = "Open Tasks",
+  --     },
+  --     {
+  --       "<leader>oj",
+  --       function()
+  --         local client = get_client()
+  --         vim.cmd("edit " .. client.dir.filename .. "/Job Search.md")
+  --       end,
+  --       desc = "Open Job Search",
+  --     },
+  --     {
+  --       "<leader>ok",
+  --       function()
+  --         local client = get_client()
+  --         vim.cmd("edit " .. client.dir.filename .. "/Knowledge Base.md")
+  --       end,
+  --       desc = "Open Knowledge Base",
+  --     },
+  --   },
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "hrsh7th/nvim-cmp",
+  --     "nvim-telescope/telescope.nvim",
+  --     "nvim-treesitter/nvim-treesitter",
+  --   },
+  --
+  --   config = function()
+  --     require("obsidian").setup({
+  --       ui = {
+  --         enable = false,
+  --         update_debounce = 200,
+  --         max_file_length = 5000,
+  --         checkboxes = {
+  --           [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
+  --           ["x"] = { char = "", hl_group = "ObsidianDone" },
+  --           [">"] = { char = "", hl_group = "ObsidianRightArrow" },
+  --           ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
+  --         },
+  --       },
+  --
+  --       -- Workspaces
+  --       workspaces = {
+  --         {
+  --           name = "modalic",
+  --           path = "~/Documents/obsidian/modalic/",
+  --         },
+  --         {
+  --           name = "remodel",
+  --           path = "~/Documents/obsidian/remodel/",
+  --         },
+  --         {
+  --           name = "playground",
+  --           path = "~/Documents/obsidian/playground/",
+  --         },
+  --         {
+  --           name = "oceancomm",
+  --           path = "~/Documents/obsidian/oceancomm/",
+  --         },
+  --         {
+  --           name = "home",
+  --           path = "~/Documents/obsidian/home/",
+  --         },
+  --       },
+  --
+  --       -- Daily Notes Configuration
+  --       daily_notes = {
+  --         date_format = "%Y-%m-%d",
+  --         alias_format = "%B %-d, %Y",
+  --       },
+  --
+  --       -- Completion
+  --       completion = {
+  --         nvim_cmp = true,
+  --         min_chars = 2,
+  --       },
+  --
+  --       -- Buffer Mappings (only active in markdown files)
+  --       mappings = {
+  --         ["gf"] = {
+  --           action = function()
+  --             return require("obsidian").util.gf_passthrough()
+  --           end,
+  --           opts = { noremap = false, expr = true, buffer = true },
+  --         },
+  --         ["<leader>ch"] = {
+  --           action = function()
+  --             return require("obsidian").util.toggle_checkbox()
+  --           end,
+  --           opts = { buffer = true },
+  --         },
+  --         ["<cr>"] = {
+  --           action = function()
+  --             return require("obsidian").util.smart_action()
+  --           end,
+  --           opts = { buffer = true, expr = true },
+  --         },
+  --       },
+  --
+  --       -- Picker Configuration
+  --       picker = {
+  --         name = "telescope.nvim",
+  --         note_mappings = {
+  --           new = "<C-x>",
+  --           insert_link = "<C-l>",
+  --         },
+  --         tag_mappings = {
+  --           tag_note = "<C-x>",
+  --           insert_tag = "<C-l>",
+  --         },
+  --       },
+  --
+  --       -- URL Handler
+  --       follow_url_func = function(url)
+  --         vim.fn.jobstart({ "xdg-open", url })
+  --       end,
+  --
+  --       -- Templates
+  --       templates = {
+  --         folder = "templates",
+  --         date_format = "%Y-%m-%d",
+  --         time_format = "%H:%M",
+  --         substitutions = {
+  --           yesterday = function()
+  --             return os.date("%Y-%m-%d", os.time() - 86400)
+  --           end,
+  --           tomorrow = function()
+  --             return os.date("%Y-%m-%d", os.time() + 86400)
+  --           end,
+  --           week = function()
+  --             local week_start = os.time()
+  --             local day_of_week = tonumber(os.date("%w", week_start))
+  --             local days_since_monday = (day_of_week - 1) % 7
+  --             if day_of_week == 0 then days_since_monday = 6 end
+  --             local monday = os.date("%Y-%m-%d",
+  --               week_start - (days_since_monday * 86400))
+  --             return "Week of " .. monday
+  --           end,
+  --         },
+  --       },
+  --
+  --       -- Behavior
+  --       log_level = vim.log.levels.INFO,
+  --       open_notes_in = "current",
+  --       sort_by = "modified",
+  --       sort_reversed = true,
+  --
+  --       -- Note Naming
+  --       note_id_func = function(title)
+  --         return title
+  --       end,
+  --
+  --       -- Link Style
+  --       preferred_link_style = "wiki",
+  --     })
+  --   end,
+}
