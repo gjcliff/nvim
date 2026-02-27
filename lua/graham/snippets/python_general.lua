@@ -26,6 +26,10 @@ local function to_snake_case(str)
 end
 
 ls.add_snippets("python", {
+  s("printf", fmt("print(f\"{}: {{{}}}\")", { i(1), rep(1) })),
+})
+
+ls.add_snippets("python", {
   s("temp_zenoh",
     fmt([[
 import time
