@@ -13,6 +13,8 @@ vim.keymap.set(
   { desc = "cd to current file dir" }
 )
 
+vim.keymap.set("n", "<leader>ew", ":e /mnt/c/Users/clifford.graham<CR>")
+
 -- neorg
 vim.keymap.set('n', '<localleader>sw',
   '<cmd>Telescope neorg switch_workspace<CR>',
