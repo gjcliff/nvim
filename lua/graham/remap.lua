@@ -2,9 +2,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
--- my stuff - Graham
-vim.keymap.set("i", "<S-Tab>", "<C-d>")
-vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 
 vim.keymap.set(
   "n",
@@ -110,13 +107,14 @@ vim.keymap.set("n", "Q", "<nop>")
 -- vim.keymap.set("n", "<leader>h", "<cmd>lnext<CR>zz")
 -- vim.keymap.set("n", "<leader>l", "<cmd>lprev<CR>zz")
 
+-- amazing
+vim.keymap.set('c', '<M-b>', '<S-Left>')   -- alt+b move word back
+vim.keymap.set('c', '<M-f>', '<S-Right>')  -- alt+f move word forward
+vim.keymap.set('c', '<M-d>', '<S-Right><C-w>')  -- alt+d delete word forward
+
 vim.keymap.set(
   "n",
   "<leader>s",
   [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]
-) -- amazing
+) -- also amazing
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
-
--- vim.keymap.set("n", "<leader><leader>", function()
---   vim.cmd("so")
--- end)

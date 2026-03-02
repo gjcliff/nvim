@@ -62,8 +62,8 @@ return {
                 :find()
         end
 
-        vim.keymap.set("n", "<C-t>", function()
-            toggle_telescope(harpoon:list())
-        end, { desc = "Open harpoon window" })
+        -- vim.keymap.set("n", "<C-t>", function()
+        --     toggle_telescope(harpoon:list())
+        -- end, { desc = "Open harpoon window" })
     end
 }
