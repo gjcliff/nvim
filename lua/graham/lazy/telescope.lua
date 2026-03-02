@@ -65,18 +65,18 @@ return {
       builtin.lsp_definitions,
       { desc = "LSP definitions" }
     )
-    vim.keymap.set("n", "gr", function()
+    vim.keymap.set("n", "<leader>grr", function()
       builtin.lsp_references()
     end, { desc = "LSP: [G]oto [R]eferences" })
     vim.keymap.set(
       "n",
-      "gi",
+      "<leader>gri",
       builtin.lsp_implementations,
       { desc = "LSP implementations" }
     )
     vim.keymap.set(
       "n",
-      "<leader>ds",
+      "<leader>gO",
       builtin.lsp_document_symbols,
       { desc = "Document symbols" }
     )
