@@ -56,8 +56,6 @@ return {
     require("mason-lspconfig").setup({
       ensure_installed = {
         "lua_ls",
-        -- "rust_analyzer",
-        -- "pylsp",
         "clangd",
       },
     })
@@ -108,10 +106,11 @@ return {
       },
       sources = cmp.config.sources({
         { name = "copilot", group_index = 2 },
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+        { name = "path" },
       }, {
-        { name = 'buffer' },
+        { name = "buffer" },
       })
     })
 

@@ -2,10 +2,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
--- my stuff - Graham
-vim.keymap.set("i", "<S-Tab>", "<C-d>")
-vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
-
 vim.keymap.set(
   "n",
   "<leader>cd",
@@ -16,19 +12,30 @@ vim.keymap.set(
 vim.keymap.set("n", "<leader>ew", ":e /mnt/c/Users/clifford.graham<CR>")
 
 -- neorg
-vim.keymap.set('n', '<localleader>sw',
-  '<cmd>Telescope neorg switch_workspace<CR>',
-  { desc = 'Switch neorg workspace' })
-vim.keymap.set('n', '<localleader>ss',
-  '<cmd>Telescope neorg find_linkable<CR>',
-  { desc = 'Switch neorg workspace' })
-vim.keymap.set('n', '<localleader>il',
-  '<cmd>Telescope neorg insert_link<CR>',
-  { desc = 'Switch neorg workspace' })
-vim.keymap.set('n', '<localleader>ifl',
-  '<cmd>Telescope neorg insert_file_link<CR>',
-  { desc = 'Switch neorg workspace' })
-
+vim.keymap.set(
+  "n",
+  "<localleader>sw",
+  "<cmd>Telescope neorg switch_workspace<CR>",
+  { desc = "Switch neorg workspace" }
+)
+vim.keymap.set(
+  "n",
+  "<localleader>ss",
+  "<cmd>Telescope neorg find_linkable<CR>",
+  { desc = "Switch neorg workspace" }
+)
+vim.keymap.set(
+  "n",
+  "<localleader>il",
+  "<cmd>Telescope neorg insert_link<CR>",
+  { desc = "Switch neorg workspace" }
+)
+vim.keymap.set(
+  "n",
+  "<localleader>ifl",
+  "<cmd>Telescope neorg insert_file_link<CR>",
+  { desc = "Switch neorg workspace" }
+)
 
 vim.keymap.set("n", "<M-j>", "<C-w>5+", { noremap = true, silent = true })
 vim.keymap.set("n", "<M-k>", "<C-w>5-", { noremap = true, silent = true })
@@ -50,21 +57,6 @@ vim.keymap.set("n", "<leader>vws", function()
 end)
 vim.keymap.set("n", "<leader>vd", function()
   vim.diagnostic.open_float({ focusable = true })
-end)
-vim.keymap.set("n", "[d", function()
-  vim.diagnostic.goto_next()
-end)
-vim.keymap.set("n", "]d", function()
-  vim.diagnostic.goto_prev()
-end)
-vim.keymap.set("n", "<leader>vca", function()
-  vim.lsp.buf.code_action()
-end)
-vim.keymap.set("n", "<leader>vrr", function()
-  vim.lsp.buf.references()
-end)
-vim.keymap.set("n", "<leader>vrn", function()
-  vim.lsp.buf.rename()
 end)
 vim.keymap.set("i", "<C-h>", function()
   vim.lsp.buf.signature_help()
@@ -109,16 +101,17 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("n", "Q", "<nop>")
 -- vim.keymap.set("n", "<C-h>", "<cmd>cnext<CR>zz")
 -- vim.keymap.set("n", "<C-l>", "<cmd>cprev<CR>zz")
--- vim.keymap.set("n", "<leader>h", "<cmd>lnext<CR>zz")
--- vim.keymap.set("n", "<leader>l", "<cmd>lprev<CR>zz")
+vim.keymap.set("n", "]w", "<cmd>lnext<CR>zz")
+vim.keymap.set("n", "[w", "<cmd>lprev<CR>zz")
+
+-- amazing
+vim.keymap.set("c", "<M-b>", "<S-Left>")       -- alt+b move word back
+vim.keymap.set("c", "<M-f>", "<S-Right>")      -- alt+f move word forward
+vim.keymap.set("c", "<M-d>", "<S-Right><C-w>") -- alt+d delete word forward
 
 vim.keymap.set(
   "n",
   "<leader>s",
   [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]
-) -- amazing
+) -- also amazing
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
-
--- vim.keymap.set("n", "<leader><leader>", function()
---   vim.cmd("so")
--- end)
