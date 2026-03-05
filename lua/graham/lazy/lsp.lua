@@ -1,14 +1,3 @@
-local root_files = {
-  '.luarc.json',
-  '.luarc.jsonc',
-  '.luacheckrc',
-  '.stylua.toml',
-  'stylua.toml',
-  'selene.toml',
-  'selene.yml',
-  '.git',
-}
-
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
@@ -43,13 +32,14 @@ return {
     --
     --     }
     -- })
-    local cmp = require('cmp')
+    local cmp = require("cmp")
     local cmp_lsp = require("cmp_nvim_lsp")
     local capabilities = vim.tbl_deep_extend(
       "force",
       {},
       vim.lsp.protocol.make_client_capabilities(),
-      cmp_lsp.default_capabilities())
+      cmp_lsp.default_capabilities()
+    )
 
     require("fidget").setup({})
     require("mason").setup()
@@ -66,11 +56,11 @@ return {
     cmp.setup({
       snippet = {
         expand = function(args)
-          require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+          require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
         end,
       },
       mapping = {
-        ['<CR>'] = cmp.mapping(function(fallback)
+        ["<CR>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             if luasnip.expandable() then
               luasnip.expand()
@@ -109,13 +99,14 @@ return {
         { name = "nvim_lsp" },
         { name = "luasnip" },
         { name = "path" },
-      }, {
         { name = "buffer" },
-      })
+      }),
     })
 
     vim.diagnostic.config({
       -- update_in_insert = true,
+      virtual_text = true,
+      underline = true,
       float = {
         focusable = false,
         style = "minimal",
@@ -125,5 +116,5 @@ return {
         prefix = "",
       },
     })
-  end
+  end,
 }
