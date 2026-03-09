@@ -15,8 +15,9 @@ return {
       analysis = {
         -- ignorePatterns = { "*.pyi" },
         diagnosticSeverityOverrides = {
-          reportArgumentType = "warning", -- or "none" to disable
+          reportArgumentType = "none", -- or "none" to disable
           reportAttributeAccessIssue = "none",
+          reportGeneralTypeIssues = "none",
           -- reportCallIssue = "warning",
           -- reportUnreachable = "warning",
           -- reportUnusedImport = "none",
