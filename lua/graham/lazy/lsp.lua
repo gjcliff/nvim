@@ -50,8 +50,6 @@ return {
       },
     })
 
-    local cmp_select = { behavior = cmp.SelectBehavior.Select }
-
     local luasnip = require("luasnip")
     cmp.setup({
       snippet = {

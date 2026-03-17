@@ -1,5 +1,5 @@
 -- Making some snippets, how can I include these from a separate file?
-local ls = require "luasnip"
+local ls = require("luasnip")
 local s = ls.snippet
 local sn = ls.snippet_node
 local t = ls.text_node
@@ -26,12 +26,33 @@ local function to_snake_case(str)
 end
 
 ls.add_snippets("python", {
-  s("printf", fmt("print(f\"{}: {{{}}}\")", { i(1), rep(1) })),
+  s("printf", fmt('print(f"{}: {{{}}}")', { i(1), rep(1) })),
 })
 
 ls.add_snippets("python", {
-  s("temp_zenoh",
-    fmt([[
+  s("loggerf", fmt('{}.{}(f"{}: {{{}}}")', { i(1), i(2), i(3), rep(3) })),
+})
+ls.add_snippets("python", {
+  s("infof", fmt('logger.info(f"{}: {{{}}}")', { i(1), rep(1) })),
+})
+ls.add_snippets("python", {
+  s("debugf", fmt('logger.debug(f"{}: {{{}}}")', { i(1), rep(1) })),
+})
+ls.add_snippets("python", {
+  s("warnf", fmt('logger.warn(f"{}: {{{}}}")', { i(1), rep(1) })),
+})
+ls.add_snippets("python", {
+  s("errorf", fmt('logger.error(f"{}: {{{}}}")', { i(1), rep(1) })),
+})
+ls.add_snippets("python", {
+  s("criticalf", fmt('logger.critical(f"{}: {{{}}}")', { i(1), rep(1) })),
+})
+
+ls.add_snippets("python", {
+  s(
+    "temp_zenoh",
+    fmt(
+      [[
 import time
 import json
 import zenoh
@@ -115,24 +136,38 @@ def main():
 
 if __name__ == "__main__":
     main()
-]], {
-      i(1, "MyNode"), -- class name
-      i(2, "pub_key"),
-      i(3, "json_key"),
-      i(4, "protobuf_key"),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 }),
-      rep(1),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 }),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 }),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 }),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 })
-    })
-  )
+]],
+      {
+        i(1, "MyNode"), -- class name
+        i(2, "pub_key"),
+        i(3, "json_key"),
+        i(4, "protobuf_key"),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+        rep(1),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+      }
+    )
+  ),
 })
 
 ls.add_snippets("python", {
-  s("temp_zenoh_ros2",
-    fmt([[
+  s(
+    "temp_zenoh_ros2",
+    fmt(
+      [[
 import os
 from ament_index_python.packages import get_package_share_directory
 
@@ -250,21 +285,39 @@ def main(args=None):
 
 if __name__ == "__main__":
     main()
-]], {
-      i(1, "MyNode"),
-      i(2, "pub_key"),
-      i(3, "json_key"),
-      i(4, "protobuf_key"),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 }),
-      rep(1),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 }),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 }),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 }),
-      rep(1),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 }),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 }),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 }),
-      f(function(args) return to_snake_case(args[1][1]) end, { 1 })
-    })
-  )
+]],
+      {
+        i(1, "MyNode"),
+        i(2, "pub_key"),
+        i(3, "json_key"),
+        i(4, "protobuf_key"),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+        rep(1),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+        rep(1),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+        f(function(args)
+          return to_snake_case(args[1][1])
+        end, { 1 }),
+      }
+    )
+  ),
 })

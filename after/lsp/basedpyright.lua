@@ -13,29 +13,14 @@ return {
   settings = {
     basedpyright = {
       analysis = {
-        -- ignorePatterns = { "*.pyi" },
         diagnosticSeverityOverrides = {
-          reportArgumentType = "none", -- or "none" to disable
+          reportArgumentType = "none", -- "none" or "warning"
           reportAttributeAccessIssue = "none",
           reportGeneralTypeIssues = "none",
-          -- reportCallIssue = "warning",
-          -- reportUnreachable = "warning",
-          -- reportUnusedImport = "none",
-          -- reportUnusedCoroutine = "warning",
         },
-        -- diagnosticMode = "workspace",
         diagnosticMode = "openFilesOnly",
         typeCheckingMode = "basic",
-        -- reportCallIssue = "none",
-        -- disableOrganizeImports = true,
       },
-      -- analysis = {
-      --   autoSearchPaths = true,
-      --   diagnosticMode = "workspace", -- Changed from default "openFilesOnly" for better protobuf support
-      --   useLibraryCodeForTypes = true,
-      --   -- Uncomment and adjust if your _pb2.py files are in a non-standard location:
-      --   -- extraPaths = { "./path/to/proto/output" },
-      -- },
     },
   },
 }
