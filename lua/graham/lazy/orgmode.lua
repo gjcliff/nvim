@@ -5,6 +5,7 @@ return {
   config = function()
     -- setup orgmode
     require("orgmode").setup({
+      org_startup_indented = true,
       org_agenda_files = { "~/Documents/orgfiles/**/*" },
       org_default_notes_file = "~/Documents/orgfiles/refile.org",
       org_indent_mode = "indent",
